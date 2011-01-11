@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  <PreferenceCategory
+  	android:title="Server">
+  	<EditTextPreference
+		android:key="serverHost"
+		android:title="Host"
+		android:summary="The hostname or ip-address of your TV"/>
+	<EditTextPreference
+		android:key="serverPort"
+		android:title="Port"
+		android:summary="The server port (Default: 2345)"
+		android:numeric="integer"
+		android:defaultValue="2345"/>
+  </PreferenceCategory>
+</PreferenceScreen>
