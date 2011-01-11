@@ -1,0 +1,15 @@
+SamyGo Android Remote
+=====================
+
+Howto
+-----
+Download and install "Remote LAN Control" to your TV:
+
+1. Download the [Remote LAN Control application](http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control) for the content library 
+2. Copy the application to your USB-stick
+3. Plug the USB-stick into your TV
+4. Go to your Content-Library -> manage content -> USB -> *your usb stick* -> games -> SamyGo Remote -> play
+5. Now the Remote LAN Control Server is installed
+6. Start SamyGo Android Remote
+7. Change the IP-Address in *Settings*
+8. Have fun!
