@@ -15,14 +15,20 @@
      You can get the GNU General Public License at
      http://www.gnu.org/licenses/gpl.html
 -->
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-		android:id="@+id/menu_item_settings"
-		android:title="@string/menu_settings"
-		android:icon="@android:drawable/ic_menu_preferences"/>
-	<item
-		android:id="@+id/menu_item_about"
-		android:title="@string/menu_about"
-		android:icon="@android:drawable/ic_menu_info_details"/>
-</menu>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/about_text"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:gravity="left"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:linksClickable="true"
+			android:text="@string/about_text"/>
+	</LinearLayout>
+</ScrollView>

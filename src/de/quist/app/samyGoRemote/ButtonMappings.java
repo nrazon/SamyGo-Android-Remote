@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class ButtonMappings {
 
+	public static final int BTN_POWER_OFF = 2;
 	private static final int BTN_TV = 27;
 	private static final int BTN_1 = 4;
 	private static final int BTN_2 = 5;
@@ -95,6 +96,7 @@ public class ButtonMappings {
 	public static final ArrayList<RemoteButton> BUTTONS = new ArrayList<RemoteButton>();
 	
 	static {
+		BUTTONS.add(new RemoteButton(R.id.btn_pwr_off, BTN_POWER_OFF));
 		BUTTONS.add(new RemoteButton(R.id.btn_tv, BTN_TV));
 		BUTTONS.add(new RemoteButton(R.id.btn_1, BTN_1));
 		BUTTONS.add(new RemoteButton(R.id.btn_2, BTN_2));

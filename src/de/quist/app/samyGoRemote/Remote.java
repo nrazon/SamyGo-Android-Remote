@@ -20,11 +20,13 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +49,7 @@ public class Remote extends Activity {
         		v.setOnClickListener(new View.OnClickListener() {
 					
 					public void onClick(View v) {
+						vibrate(Remote.this, 50);
 						Integer[] codes1 = new Integer[codes.length];
 						for (int i=0; i < codes.length; i++) {
 							codes1[i] = codes[i];
@@ -79,6 +82,9 @@ public class Remote extends Activity {
     			for (int code : codes) {
     				if (!first) Thread.sleep(300);
     				mConnection.sendCode(code);
+    				if (code == ButtonMappings.BTN_POWER_OFF) {
+    					finish();
+    				}
     				first = false;
     			}
     		} catch (InterruptedException e) {
@@ -114,7 +120,17 @@ public class Remote extends Activity {
     	case R.id.menu_item_settings:
     		Intent prefsActivity = new Intent(this, MainPreferencesActivity.class);
     		startActivity(prefsActivity);
+    		break;
+    	case R.id.menu_item_about:
+    		Intent aboutActivity = new Intent(this, AboutActivity.class);
+    		startActivity(aboutActivity);
+    		break;
     	}
     	return super.onMenuItemSelected(featureId, item);
+    }
+    
+    public static void vibrate(Context context, long millis) {
+    	Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+    	v.vibrate(millis);
     }
 }
