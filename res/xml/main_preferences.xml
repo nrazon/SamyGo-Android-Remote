@@ -16,18 +16,31 @@
      http://www.gnu.org/licenses/gpl.html
 -->
 <PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-  <PreferenceCategory
-  	android:title="Server">
-  	<EditTextPreference
-		android:key="serverHost"
-		android:title="Host"
-		android:summary="The hostname or ip-address of your TV"/>
-	<EditTextPreference
-		android:key="serverPort"
-		android:title="Port"
-		android:summary="The server port (Default: 2345)"
-		android:numeric="integer"
-		android:defaultValue="2345"/>
-  </PreferenceCategory>
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+  		android:title="@string/prefs_category_server_title">
+	  	<EditTextPreference
+			android:key="serverHost"
+			android:title="@string/prefs_server_host_title"
+			android:summary="@string/prefs_server_host_summary"/>
+		<EditTextPreference
+			android:key="serverPort"
+			android:title="@string/prefs_server_port_title"
+			android:summary="@string/prefs_server_port_summary"
+			android:numeric="integer"
+			android:defaultValue="2345"/>
+	</PreferenceCategory>
+	<PreferenceCategory
+  		android:title="@string/prefs_category_user_interface_title">
+		<de.quist.app.samyGoRemote.LayoutListPreference
+			android:key="layout"
+			android:title="@string/prefs_layout_title"
+			android:summary="@string/prefs_layout_summary"/>
+  		<ListPreference
+			android:key="vibrationDuration"
+			android:title="@string/prefs_vibration_duration_title"
+			android:summary="@string/prefs_vibration_duration_summary"
+			android:entries="@array/vibration_duration_entries"
+			android:entryValues="@array/vibration_duration_values"/>
+	</PreferenceCategory>
 </PreferenceScreen>

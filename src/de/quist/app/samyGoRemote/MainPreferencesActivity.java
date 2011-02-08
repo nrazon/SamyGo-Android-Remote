@@ -28,6 +28,4 @@ public class MainPreferencesActivity extends PreferenceActivity {
 		
 	}
 	
-	
-	
 }

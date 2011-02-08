@@ -133,7 +133,7 @@ public class ButtonMappings {
 		BUTTONS.add(new RemoteButton(R.id.btn_green, BTN_GREEN));
 		BUTTONS.add(new RemoteButton(R.id.btn_yellow, BTN_YELLOW));
 		BUTTONS.add(new RemoteButton(R.id.btn_blue, BTN_BLUE));
-		BUTTONS.add(new RemoteButton(R.id.btn_ttx, BTN_TELETEXT));
+		BUTTONS.add(new RemoteButton(R.id.btn_ttx_mix, BTN_TELETEXT));
 		BUTTONS.add(new RemoteButton(R.id.btn_media, BTN_MEDIA));
 		BUTTONS.add(new RemoteButton(R.id.btn_conten, BTN_CONTENT));
 		BUTTONS.add(new RemoteButton(R.id.btn_chlist, BTN_CHANNEL_LIST));

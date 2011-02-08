@@ -16,6 +16,9 @@
      http://www.gnu.org/licenses/gpl.html
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:samygo="http://samyGoRemote.app.quist.de/apk/res/layout"
+	samygo:name="Test"
+	samygo:enabled="false"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<LinearLayout
@@ -26,361 +29,361 @@
 			android:id="@+id/btn_pwr_off"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Power Off"/>
+		    android:text="@string/btn_pwr_off"/>
 		<Button
 			android:id="@+id/btn_tv"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:text="TV"/>
+			android:text="@string/btn_tv"/>
 		<Button  
 			android:id="@+id/btn_1"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="1"/>
+		    android:text="@string/btn_1"/>
 		<Button  
 			android:id="@+id/btn_2"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="2"/>
+		    android:text="@string/btn_2"/>
 		<Button  
 			android:id="@+id/btn_3"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="3"/>
+		    android:text="@string/btn_3"/>
 		<Button  
 			android:id="@+id/btn_4"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="4"/>
+		    android:text="@string/btn_4"/>
 		<Button  
 			android:id="@+id/btn_5"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="5"/>
+		    android:text="@string/btn_5"/>
 		<Button  
 			android:id="@+id/btn_6"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="6"/>
+		    android:text="@string/btn_6"/>
 		<Button  
 			android:id="@+id/btn_7"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="7"/>
+		    android:text="@string/btn_7"/>
 		<Button  
 			android:id="@+id/btn_8"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="8"/>
+		    android:text="@string/btn_8"/>
 		<Button  
 			android:id="@+id/btn_9"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="9"/>
+		    android:text="@string/btn_9"/>
 		<Button  
 			android:id="@+id/btn_0"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="0"/>
+		    android:text="@string/btn_0"/>
 		<Button  
 			android:id="@+id/btn_favch"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="FAV-CH"/>
+		    android:text="@string/btn_favch"/>
 		<Button  
 			android:id="@+id/btn_prech"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="PRE-CH"/>
+		    android:text="@string/btn_prech"/>
 		<Button  
 			android:id="@+id/btn_volup"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="VOL +"/>
+		    android:text="@string/btn_volup"/>
 		<Button  
 			android:id="@+id/btn_mute"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Mute"/>
+		    android:text="@string/btn_mute"/>
 		<Button  
 			android:id="@+id/btn_chup"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="CH +"/>
+		    android:text="@string/btn_chup"/>
 		<Button  
 			android:id="@+id/btn_voldn"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="VOL -"/>
+		    android:text="@string/btn_voldn"/>
 		<Button  
 			android:id="@+id/btn_source"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Source"/>
+		    android:text="@string/btn_source"/>
 		<Button  
 			android:id="@+id/btn_chdn"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="CH -"/>
+		    android:text="@string/btn_chdn"/>
 		<Button  
 			android:id="@+id/btn_info"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="INFO"/>
+		    android:text="@string/btn_info"/>
 		<Button  
 			android:id="@+id/btn_menu"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="MENU"/>
+		    android:text="@string/btn_menu"/>
 		<Button  
 			android:id="@+id/btn_guide"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="GUIDE"/>
+		    android:text="@string/btn_guide"/>
 		<Button  
 			android:id="@+id/btn_tools"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="TOOLS"/>
+		    android:text="@string/btn_tools"/>
 		<Button  
 			android:id="@+id/btn_return"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="RETURN"/>
+		    android:text="@string/btn_return"/>
 		<Button  
 			android:id="@+id/btn_enter"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="ENTER"/>
+		    android:text="@string/btn_enter"/>
 		<Button  
 			android:id="@+id/btn_up"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="△"/>
+		    android:text="Up"/>
 		<Button  
 			android:id="@+id/btn_left"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="&lt;|"/>
+		    android:text="Left"/>
 		<Button  
 			android:id="@+id/btn_right"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="|>"/>
+		    android:text="Right"/>
 		<Button  
 			android:id="@+id/btn_down"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="▽"/>
+		    android:text="Down"/>
 		<Button  
 			android:id="@+id/btn_intern"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="INTERNET"/>
+		    android:text="@string/btn_intern"/>
 		<Button  
 			android:id="@+id/btn_exit"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="EXIT"/>
+		    android:text="@string/btn_exit"/>
 		<Button  
 			android:id="@+id/btn_red"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="R"/>
+		    android:text="@string/btn_red"/>
 		<Button  
 			android:id="@+id/btn_green"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="G"/>
+		    android:text="@string/btn_green"/>
 		<Button  
 			android:id="@+id/btn_yellow"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Y"/>
+		    android:text="@string/btn_yellow"/>
 		<Button  
 			android:id="@+id/btn_blue"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="B"/>
+		    android:text="@string/btn_blue"/>
 		<Button  
-			android:id="@+id/btn_ttx"
+			android:id="@+id/btn_ttx_mix"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="TTX/MIX"/>
+		    android:text="@string/btn_ttx_mix"/>
 		<Button  
 			android:id="@+id/btn_media"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="MEDIA.P"/>
+		    android:text="@string/btn_media"/>
 		<Button  
 			android:id="@+id/btn_conten"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="CONTENT"/>
+		    android:text="@string/btn_conten"/>
 		<Button  
 			android:id="@+id/btn_chlist"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="CH LIST"/>
+		    android:text="@string/btn_chlist"/>
 		<Button  
 			android:id="@+id/btn_ad"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="AD"/>
+		    android:text="@string/btn_ad"/>
 		<Button  
 			android:id="@+id/btn_subt"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="SUBT."/>
+		    android:text="@string/btn_subt"/>
 		<Button  
 			android:id="@+id/btn_fb"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="ᐊᐊ"/>
+		    android:text="@string/btn_fb"/>
 		<Button  
 			android:id="@+id/btn_pause"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="∎∎"/>
+		    android:text="@string/btn_pause"/>
 		<Button  
 			android:id="@+id/btn_ff"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="ᐅᐅ"/>
+		    android:text="@string/btn_ff"/>
 		<Button  
 			android:id="@+id/btn_rec"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="◯"/>
+		    android:text="@string/btn_rec"/>
 		<Button  
 			android:id="@+id/btn_play"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="|>"/>
+		    android:text="@string/btn_play"/>
 		<Button  
 			android:id="@+id/btn_stop"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="■"/>
+		    android:text="@string/btn_stop"/>
 		<Button  
 			android:id="@+id/btn_sleep"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="SLEEP"/>
+		    android:text="@string/btn_sleep"/>
 		<Button  
 			android:id="@+id/btn_picture_in_picture"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="PIP"/>
+		    android:text="@string/btn_picture_in_picture"/>
 		<Button  
 			android:id="@+id/btn_psize"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="P.SIZE"/>
+		    android:text="@string/btn_psize"/>
 		<Button  
 			android:id="@+id/btn_energy"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Energy save"/>
+		    android:text="@string/btn_energy"/>
 		<Button  
 			android:id="@+id/btn_srs"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="SRS on/off"/>
+		    android:text="@string/btn_srs"/>
 		<Button  
 			android:id="@+id/btn_pmode"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Switch mode"/>
+		    android:text="@string/btn_pmode"/>
 		<Button  
 			android:id="@+id/btn_p_dynamic"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Dynamic"/>
+		    android:text="@string/btn_p_dynamic"/>
 		<Button  
 			android:id="@+id/btn_p_standard"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Standard"/>
+		    android:text="@string/btn_p_standard"/>
 		<Button  
 			android:id="@+id/btn_p_movie1"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Movie"/>
+		    android:text="@string/btn_p_movie1"/>
 		<Button  
 			android:id="@+id/btn_p_movie2"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Movie 2"/>
+		    android:text="@string/btn_p_movie2"/>
 		<Button  
 			android:id="@+id/btn_p_user1"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="User 1"/>
+		    android:text="@string/btn_p_user1"/>
 		<Button  
 			android:id="@+id/btn_p_user2"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="User 2"/>
+		    android:text="@string/btn_p_user2"/>
 		<Button  
 			android:id="@+id/btn_p_user3"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="User 3"/>
+		    android:text="@string/btn_p_user3"/>
 		<Button  
 			android:id="@+id/btn_aspect_43"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="4:3"/>
+		    android:text="@string/btn_aspect_43"/>
 		<Button  
 			android:id="@+id/btn_aspect_169"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="16:9"/>
+		    android:text="@string/btn_aspect_169"/>
 		<Button  
 			android:id="@+id/btn_s_scart1"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Scart 1"/>
+		    android:text="@string/btn_s_scart1"/>
 		<Button  
 			android:id="@+id/btn_s_scart2"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Scart 2"/>
+		    android:text="@string/btn_s_scart2"/>
 		<Button  
 			android:id="@+id/btn_s_module"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="Module"/>
+		    android:text="@string/btn_s_module"/>
 		<Button  
 			android:id="@+id/btn_s_av"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="AV"/>
+		    android:text="@string/btn_s_av"/>
 		<Button  
 			android:id="@+id/btn_s_vga"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="VGA"/>
+		    android:text="@string/btn_s_vga"/>
 		<Button  
 			android:id="@+id/btn_s_hdmi1"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="HDMI 1"/>
+		    android:text="@string/btn_s_hdmi1"/>
 		<Button  
 			android:id="@+id/btn_s_hdmi2"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="HDMI 2"/>
+		    android:text="@string/btn_s_hdmi2"/>
 		<Button  
 			android:id="@+id/btn_s_hdmi3_dvi"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="HDMI/DVI"/>
+		    android:text="@string/btn_s_hdmi3_dvi"/>
 		<Button  
 			android:id="@+id/btn_s_hdmi4"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
-		    android:text="HDMI 4"/>
+		    android:text="@string/btn_s_hdmi4"/>
 	</LinearLayout>
 </ScrollView>

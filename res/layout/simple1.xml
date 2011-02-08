@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+     Copyright (C) 2011  Tom Quist
+     
+     This program is free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+     
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+     
+     You can get the GNU General Public License at
+     http://www.gnu.org/licenses/gpl.html
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:samygo="http://samyGoRemote.app.quist.de/apk/res/layout"
+	samygo:uid="layout:de.quist.app.samyGoRemote.simple1"
+	samygo:name="@string/layout_simple_name"
+	samygo:enabled="true"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+    <RelativeLayout
+		android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:paddingBottom="10dip">
+		<LinearLayout
+			android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:paddingLeft="20dip"
+	    	android:paddingTop="5dip">
+			<Button  
+				android:id="@+id/btn_pwr_off"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentTop="true"
+				android:background="@drawable/button_power"
+			    android:layout_width="50dp" 
+			    android:layout_height="50dp"/>
+		</LinearLayout>
+		<Button
+			android:id="@+id/btn_tv"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_width="90dip" android:layout_height="60dip"
+		    android:background="@drawable/button_light_tv"/>
+	</RelativeLayout>
+	<RelativeLayout
+		android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:paddingBottom="10dip">
+		<LinearLayout
+			android:id="@+id/group_volume"
+			android:layout_alignParentLeft="true"
+		    android:layout_width="90dip"
+		    android:layout_height="160dip"
+		    android:orientation="vertical"
+		    android:background="@drawable/group_volume">
+		    <Button  
+				android:id="@+id/btn_volup"
+			    android:layout_width="fill_parent" 
+			    android:layout_height="79dip" 
+			    android:background="@drawable/button_up_down_top"/>
+			<Button  
+				android:id="@+id/btn_voldn"
+			    android:layout_width="fill_parent" 
+			    android:layout_height="78dip" 
+			    android:background="@drawable/button_up_down_bottom"/>
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/group_channel"
+			android:layout_below="@id/btn_prech"
+			android:layout_alignParentRight="true"
+			android:layout_width="90dip"
+			android:layout_height="160dip"
+			android:orientation="vertical"
+			android:background="@drawable/group_channel">
+			<Button  
+				android:id="@+id/btn_chup"
+			    android:layout_width="fill_parent" 
+			    android:layout_height="79dip" 
+			    android:background="@drawable/button_up_down_top"/>
+		    <Button  
+				android:id="@+id/btn_chdn"
+			    android:layout_width="fill_parent" 
+			    android:layout_height="78dip" 
+			    android:background="@drawable/button_up_down_bottom"/>
+		</LinearLayout>
+		<RelativeLayout
+			android:id="@+id/group_between_volume_and_channel"
+			android:layout_below="@id/btn_0"
+			android:layout_centerHorizontal="true"
+			android:layout_width="fill_parent"
+			android:layout_height="160dip"
+			android:paddingLeft="10dip"
+			android:paddingTop="20dip"
+			android:paddingBottom="20dip">
+			<Button
+				android:id="@+id/btn_mute"
+				android:layout_alignParentTop="true"
+				android:layout_centerHorizontal="true"
+				android:layout_width="70dip" android:layout_height="43dip"
+				android:background="@drawable/button_light_small_mute"/>
+			<Button  
+				android:id="@+id/btn_info"
+				android:layout_alignParentBottom="true"
+				android:layout_centerHorizontal="true"
+				android:layout_width="70dip" android:layout_height="43dip"
+				android:background="@drawable/button_light_small"
+				android:textSize="15sp" android:textStyle="bold"
+			    android:text="@string/btn_info"/>
+		</RelativeLayout>
+	</RelativeLayout>
+	<RelativeLayout
+		android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">
+		<Button  
+			android:id="@+id/btn_fb"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:layout_width="85dip" android:layout_height="43dip"
+			android:background="@drawable/button_light_small_fb"/>
+		<Button  
+			android:id="@+id/btn_pause"
+			android:layout_centerHorizontal="true"
+			android:layout_alignParentTop="true"
+			android:layout_width="85dip" android:layout_height="43dip"
+			android:background="@drawable/button_light_small_pause"/>
+		<Button  
+			android:id="@+id/btn_ff"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_width="85dip" android:layout_height="43dip"
+			android:background="@drawable/button_light_small_ff"/>
+		<Button  
+			android:id="@+id/btn_rec"
+			android:layout_alignParentLeft="true"
+			android:layout_below="@id/btn_fb"
+			android:layout_width="85dip" android:layout_height="43dip"
+			android:background="@drawable/button_light_small_record"/>
+		<Button  
+			android:id="@+id/btn_play"
+			android:layout_centerHorizontal="true"
+			android:layout_below="@id/btn_pause"
+			android:layout_width="85dip" android:layout_height="43dip"
+			android:background="@drawable/button_light_small_play"/>
+		<Button  
+			android:id="@+id/btn_stop"
+			android:layout_alignParentRight="true"
+			android:layout_below="@id/btn_ff"
+			android:layout_width="85dip" android:layout_height="43dip"
+			android:background="@drawable/button_light_small_stop"/>
+	</RelativeLayout>
+</LinearLayout>
+</ScrollView>

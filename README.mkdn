@@ -1,6 +1,10 @@
 SamyGo Android Remote
 =====================
 
+General
+-------
+SamyGo Remote currently only works for B-series devices. AFAIK stock C-series devices are already able to receive remote control signals via DLNA but I don't know how to use the interface and I'm not able to find it out, because I don't have such a TV. If you have more information, let me know!  
+
 Howto
 -----
 Download and install "Remote LAN Control" to your TV:
