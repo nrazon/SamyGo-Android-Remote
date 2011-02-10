@@ -21,7 +21,7 @@
 	<string name="menu_about">About</string>
 	<string name="about_title">About</string>
 	<string name="about_text">SamyGo Remote can be used as a remote control for your B-Series Samsung TV.
-\n\nTo be able to control your TV, you have to run <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> on your TV. How to do that is explained <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=SamyGO_for_DUMMIES#Using_a_SamyGO_app">here</a>.
+\n\nTo be able to control your TV, you have to run <a href="https://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> on your TV. How to do that is explained <a href="https://sourceforge.net/apps/mediawiki/samygo/index.php?title=SamyGO_for_DUMMIES#Using_a_SamyGO_app">here</a>.
 \n\nSpecial thanks go to:
 \n-<a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=841">doodlecz</a> for <i>Remote Lan Control</i>
 \n-<a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=721">moras86</a> for the great icon
@@ -42,6 +42,7 @@
 	
 	<string name="layout_simple_name">Minimal</string>
 	<string name="layout_b650_name">B650</string>
+	<string name="layout_b650_0938_name">B650 (alternative)</string>
 	<string name="layout_b6000_name">B6000</string>
 	
 	<string name="btn_1">1</string>

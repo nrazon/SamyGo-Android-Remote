@@ -42,6 +42,7 @@
 	
 	<string name="layout_simple_name">Minimal</string>
 	<string name="layout_b650_name">B650</string>
+	<string name="layout_b650_0938_name">B650 (alternative)</string>
 	<string name="layout_b6000_name">B6000</string>
 	
 	<string name="btn_1">1</string>
