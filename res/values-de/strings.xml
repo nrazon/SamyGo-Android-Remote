@@ -39,6 +39,7 @@
 	<string name="prefs_layout_summary">Das Layout der Fernbedienung (Aktuell: ^1)</string>
 	<string name="prefs_vibration_duration_title">Vibration bei Tastendruck</string>
 	<string name="prefs_vibration_duration_summary">Dauer der Vibration bei Tastendruck</string>
+	<string name="prefs_vibration_duration_value">^1ms</string>
 	
 	<string name="layout_simple_name">Minimal</string>
 	<string name="layout_b650_name">B650</string>

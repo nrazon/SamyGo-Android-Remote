@@ -36,11 +36,13 @@
 			android:key="layout"
 			android:title="@string/prefs_layout_title"
 			android:summary="@string/prefs_layout_summary"/>
-  		<ListPreference
+  		<de.quist.app.samyGoRemote.SeekBarPreference
+  		 	xmlns:samygo="http://samyGoRemote.app.quist.de/apk/res/android"
 			android:key="vibrationDuration"
 			android:title="@string/prefs_vibration_duration_title"
 			android:summary="@string/prefs_vibration_duration_summary"
-			android:entries="@array/vibration_duration_entries"
-			android:entryValues="@array/vibration_duration_values"/>
+			android:max="500"
+			android:defaultValue="50"
+			samygo:valueText="@string/prefs_vibration_duration_value"/>
 	</PreferenceCategory>
 </PreferenceScreen>
