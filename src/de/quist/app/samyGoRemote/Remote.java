@@ -36,21 +36,22 @@ import android.widget.Toast;
 
 public class Remote extends Activity {
     
-	private static final String PREFS_LAYOUT_KEY = "layout";
-	private static final String PREFS_LAYOUT_DEFAULT = "layout:de.quist.app.samyGoRemote.bn59_00861a";
-	private static final String PREFS_SERVER_HOST_KEY = "serverHost";
-	private static final String PREFS_SERVER_HOST_DEFAULT = "changeme";
-	private static final String PREFS_SERVER_PORT_KEY = "serverPort";
-	private static final String PREFS_SERVER_PORT_DEFAULT = "2345";
-	private static final String PREFS_VIBRATE_KEY = "vibrationDuration";
-	private static final String PREFS_VIBRATE_DEFAULT = "50";
+	public static final String PREFS_LAYOUT_KEY = "layout";
+	public static final String PREFS_LAYOUT_DEFAULT = "layout:de.quist.app.samyGoRemote.bn59_00861a";
+	public static final String PREFS_SERVER_HOST_KEY = "serverHost";
+	public static final String PREFS_SERVER_HOST_DEFAULT = "change ip adress";
+	public static final String PREFS_SERVER_PORT_KEY = "serverPort";
+	public static final String PREFS_SERVER_PORT_DEFAULT = "2345";
+	public static final String PREFS_VIBRATE_KEY = "vibrationDuration";
+	public static final int PREFS_VIBRATE_DEFAULT = 50;
 	
-	private Connection mConnection;
+	private KeyCodeSender mKeyCodeSender;
     private Handler mHandler = new Handler();
 	private int contentView;
 	private int currentContentView;
 	private LayoutManager layoutManager;
 	private int vibrationDuration;
+	private boolean initialized;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,7 @@ public class Remote extends Activity {
 					
 					public void onClick(View v) {
 						vibrate(Remote.this, vibrationDuration);
-						Integer[] codes1 = new Integer[codes.length];
-						for (int i=0; i < codes.length; i++) {
-							codes1[i] = codes[i];
-						}
+						Integer[] codes1 = intArrayToIntegerArray(codes);
 						SendKeysTask sendCodesTask = new SendKeysTask(); 
 						sendCodesTask.execute(codes1);
 					}
@@ -85,7 +83,7 @@ public class Remote extends Activity {
 		boolean changes = false;
 		if (!prefs.contains(PREFS_VIBRATE_KEY)) {
 			changes = true;
-			edit.putString(PREFS_VIBRATE_KEY, PREFS_VIBRATE_DEFAULT);
+			edit.putInt(PREFS_VIBRATE_KEY, PREFS_VIBRATE_DEFAULT);
 		}
 		if (!prefs.contains(PREFS_SERVER_HOST_KEY)) {
 			changes = true;
@@ -126,35 +124,61 @@ public class Remote extends Activity {
 	protected void onResume() {
 		super.onResume();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String host = prefs.getString(PREFS_SERVER_HOST_KEY, "");
+		
+		// Check if layout changed and restart if necessary
 		this.contentView = getContentView();
 		if (this.contentView != this.currentContentView) {
 			restartActivity();
 			return;
 		}
-		int port = Integer.parseInt(PREFS_SERVER_PORT_DEFAULT);
+		this.contentView = getContentView();
+		
+		// Set vibration duration
+		this.vibrationDuration = PREFS_VIBRATE_DEFAULT;
 		try {
-			port = Integer.parseInt(prefs.getString(PREFS_SERVER_PORT_KEY, PREFS_SERVER_PORT_DEFAULT));
-		} catch (NumberFormatException e) { }
-		this.vibrationDuration = Integer.parseInt(PREFS_VIBRATE_DEFAULT);
-		try {
-			this.vibrationDuration = Integer.parseInt(prefs.getString(PREFS_VIBRATE_KEY, PREFS_VIBRATE_DEFAULT));
-		} catch (NumberFormatException e) { }
-		mConnection = new Connection(host, port);
+			this.vibrationDuration = prefs.getInt(PREFS_VIBRATE_KEY, PREFS_VIBRATE_DEFAULT);
+		} catch (ClassCastException e) {
+			try {
+				this.vibrationDuration = Integer.parseInt(prefs.getString(PREFS_VIBRATE_KEY, Integer.toString(PREFS_VIBRATE_DEFAULT)));
+			} catch (NumberFormatException e1) { }
+		}
+		
+		// Initialize the connection asynchronous
+		new AsyncTask<Void, Void, Boolean>() {
+
+			@Override
+			protected Boolean doInBackground(Void... params) {
+				return initializeConnection();
+			}
+			
+			protected void onPostExecute(Boolean result) {
+				Remote.this.initialized = result;
+			};
+			
+		}.execute();
+		
 	}
 	
-    private class SendKeysTask extends AsyncTask<Integer, Void, Void> {
+    private boolean initializeConnection() {
+    	if (mKeyCodeSender != null) mKeyCodeSender.uninitialize();
+		mKeyCodeSender = KeyCodeSenderFactory.createKeyCodeSender(this);
+		try {
+			mKeyCodeSender.initialize();
+		} catch (IOException e) {
+			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true;
+	}
+
+	private class SendKeysTask extends AsyncTask<Integer, Void, Void> {
     	@Override
     	protected Void doInBackground(Integer... codes) {
-    		boolean first = true;
     		try {
-    			for (int code : codes) {
-    				if (!first) Thread.sleep(300);
-    				mConnection.sendCode(code);
-    				if (code == ButtonMappings.BTN_POWER_OFF) {
-    					finish();
-    				}
-    				first = false;
+    			if (!Remote.this.initialized) Remote.this.mKeyCodeSender.initialize();
+    			mKeyCodeSender.sendCode(integerArrayToIntArray(codes));
+    			if (codes[codes.length-1] == ButtonMappings.BTN_POWER_OFF) {
+    				finish();
     			}
     		} catch (InterruptedException e) {
 
@@ -175,7 +199,24 @@ public class Remote extends Activity {
 			}
     		return null;
     	}
+
     }
+
+	private static int[] integerArrayToIntArray(Integer[] codes) {
+		int[] result = new int[codes.length];
+		for (int i=0; i<codes.length; i++) {
+			result[i] = codes[i];
+		}
+		return result;
+	}
+
+	private static Integer[] intArrayToIntegerArray(int[] codes) {
+		Integer[] result = new Integer[codes.length];
+		for (int i=0; i < codes.length; i++) {
+			result[i] = codes[i];
+		}
+		return result;
+	}
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,6 +242,8 @@ public class Remote extends Activity {
     public static void vibrate(Context context, long millis) {
     	if (millis == 0) return;
     	Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-    	v.vibrate(millis);
+    	if (v != null) { 
+    		v.vibrate(millis);
+    	}
     }
 }

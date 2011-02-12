@@ -42,7 +42,7 @@ public class LayoutManager {
 		public boolean isEnabled;
 	}
 	
-	private static final String NAMESPACE = "http://samyGoRemote.app.quist.de/apk/res/layout";
+	private static final String NAMESPACE = "http://samyGoRemote.app.quist.de/apk/res/android";
 	private static final String TAG = LayoutManager.class.getSimpleName();
 	private Context context;
 	private LayoutInfo[] entries;

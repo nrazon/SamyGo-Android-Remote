@@ -22,24 +22,37 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Connection {
+public class BSeriesSender implements KeyCodeSender {
 
 	private String mHost;
 	private int mPort;
 
-	public Connection(String host, int port) {
+	public BSeriesSender(String host, int port) {
 		this.mHost = host;
 		this.mPort = port;
 	}
 	
-	public void sendCode(int code) throws UnknownHostException, IOException {
+	public void initialize() throws IOException {
+		// Nothing to do, as we setup the connection when a key has to be sent
+	}
+	
+	public void sendCode(int... codes) throws UnknownHostException, IOException, InterruptedException {
 		Socket s = new Socket(mHost, mPort);
-		OutputStream out = s.getOutputStream();
-		OutputStreamWriter writer = new OutputStreamWriter(out);
-		writer.write(Integer.toString(code));
-		writer.write('\n');
-		writer.flush();
-		s.close();
+		boolean first = true;
+		for (int code : codes) {
+			if (!first) Thread.sleep(300);
+			first = false;
+			OutputStream out = s.getOutputStream();
+			OutputStreamWriter writer = new OutputStreamWriter(out);
+			writer.write(Integer.toString(code));
+			writer.write('\n');
+			writer.flush();
+			s.close();
+		}
+	}
+
+	public void uninitialize() {
+		// Nothing to do, as we setup the connection when a key has to be sent
 	}
 	
 }

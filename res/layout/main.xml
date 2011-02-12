@@ -16,7 +16,7 @@
      http://www.gnu.org/licenses/gpl.html
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:samygo="http://samyGoRemote.app.quist.de/apk/res/layout"
+	xmlns:samygo="http://samyGoRemote.app.quist.de/apk/res/android"
 	samygo:name="Test"
 	samygo:enabled="false"
 	android:layout_width="fill_parent"
