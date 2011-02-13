@@ -41,22 +41,22 @@ public class LayoutManager {
 		public CharSequence name;
 		public boolean isEnabled;
 	}
-	
+
 	private static final String NAMESPACE = "http://samyGoRemote.app.quist.de/apk/res/android";
 	private static final String TAG = LayoutManager.class.getSimpleName();
 	private Context context;
 	private LayoutInfo[] entries;
 	private HashMap<String, LayoutInfo> uriMap;
-	
+
 	public LayoutManager(Context context) {
 		this.context = context;
 		this.fetchEntries();
 	}
-	
+
 	private Context getContext() {
 		return this.context;
 	}
-	
+
 	private void fetchEntries() {
 		Context c = getContext();
 		Resources res = c.getResources();
@@ -84,60 +84,60 @@ public class LayoutManager {
 				String n2 = object2.name.toString();
 				return n1.compareTo(n2);
 			}
-			
+
 		});
 		this.entries = (LayoutInfo[]) entries.toArray(new LayoutInfo[entries.size()]);
-		
+
 		this.uriMap = new HashMap<String, LayoutManager.LayoutInfo>();
 		for (LayoutInfo info : entries) {
 			uriMap.put(info.uid, info);
 		}
 	}
-	
+
 	private static LayoutInfo getLayoutInformation(Resources res, int resId) {
 		XmlResourceParser parser = res.getLayout(resId);
 		try {
 			int eventType = parser.getEventType();
 			while (eventType != XmlPullParser.END_DOCUMENT) {
-		          if(eventType == XmlPullParser.START_TAG) {
-		        	  CharSequence name = null;
-		        	  int nameResource = parser.getAttributeResourceValue(NAMESPACE, "name", -1);
-		        	  if (nameResource != -1) {
-		        		  name = res.getText(nameResource);
-		        	  } else {
-		        		  name = parser.getAttributeValue(NAMESPACE, "name");
-		        	  }
-		        	  String uid;
-		        	  int uidResource = parser.getAttributeResourceValue(NAMESPACE, "uid", -1);
-		        	  if (uidResource != -1) {
-		        		  uid = res.getString(uidResource);
-		        	  } else {
-		        		  uid = parser.getAttributeValue(NAMESPACE, "uid");
-		        	  }
-		        	  boolean enabled = parser.getAttributeBooleanValue(NAMESPACE, "enabled", false);
-		        	  if (name != null && uid != null) {
-		        		  Log.v(TAG, "Resource " + res.getResourceName(resId) + " is not enabled.");
-		        		  LayoutInfo info = new LayoutInfo();
-		        		  info.uid = uid;
-		        		  info.resId = resId;
-		        		  info.name = name;
-		        		  info.isEnabled = enabled;
-		        		  return info;
-		        	  } else if (name != null) {
-		        		  Log.w(TAG, "Resource " + res.getResourceName(resId) + " does not have a uid attribute.");
-		        	  } else if (uid != null) {
-		        		  Log.w(TAG, "Resource " + res.getResourceName(resId) + " does not have a name attribute.");
-		        	  }
-		        	  break;
-		          }
-		          eventType = parser.next();
+				if(eventType == XmlPullParser.START_TAG) {
+					CharSequence name = null;
+					int nameResource = parser.getAttributeResourceValue(NAMESPACE, "name", -1);
+					if (nameResource != -1) {
+						name = res.getText(nameResource);
+					} else {
+						name = parser.getAttributeValue(NAMESPACE, "name");
+					}
+					String uid;
+					int uidResource = parser.getAttributeResourceValue(NAMESPACE, "uid", -1);
+					if (uidResource != -1) {
+						uid = res.getString(uidResource);
+					} else {
+						uid = parser.getAttributeValue(NAMESPACE, "uid");
+					}
+					boolean enabled = parser.getAttributeBooleanValue(NAMESPACE, "enabled", false);
+					if (name != null && uid != null) {
+						Log.v(TAG, "Resource " + res.getResourceName(resId) + " is not enabled.");
+						LayoutInfo info = new LayoutInfo();
+						info.uid = uid;
+						info.resId = resId;
+						info.name = name;
+						info.isEnabled = enabled;
+						return info;
+					} else if (name != null) {
+						Log.w(TAG, "Resource " + res.getResourceName(resId) + " does not have a uid attribute.");
+					} else if (uid != null) {
+						Log.w(TAG, "Resource " + res.getResourceName(resId) + " does not have a name attribute.");
+					}
+					break;
+				}
+				eventType = parser.next();
 			}
 		} catch (IOException e) {
 		} catch (XmlPullParserException e) {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param layoutUri
@@ -150,7 +150,7 @@ public class LayoutManager {
 		}
 		return uriMap.get(layoutUri).resId;
 	}
-	
+
 	public CharSequence[] getEntries() {
 		ArrayList<CharSequence> result = new ArrayList<CharSequence>(this.entries.length);
 		for (LayoutInfo entry : this.entries) {
@@ -158,7 +158,7 @@ public class LayoutManager {
 		}
 		return (CharSequence[]) result.toArray(new CharSequence[result.size()]);
 	}
-	
+
 	public CharSequence[] getEntryValues() {
 		ArrayList<CharSequence> result = new ArrayList<CharSequence>(this.entries.length);
 		for (LayoutInfo entry : this.entries) {
@@ -166,5 +166,5 @@ public class LayoutManager {
 		}
 		return (CharSequence[]) result.toArray(new CharSequence[result.size()]);
 	}
-	
+
 }

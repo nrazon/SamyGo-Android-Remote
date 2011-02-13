@@ -31,19 +31,19 @@ public class LayoutListPreference extends ListPreference {
 		this.setEntries(getEntries());
 		this.setEntryValues(getEntryValues());
 	}
-	
+
 	public LayoutListPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.layoutManager = new LayoutManager(context);
 		this.setEntries(getEntries());
 		this.setEntryValues(getEntryValues());
 	}
-	
+
 	@Override
 	public CharSequence[] getEntries() {
 		return this.layoutManager.getEntries();
 	}
-	
+
 	@Override
 	public CharSequence[] getEntryValues() {
 		return this.layoutManager.getEntryValues();
@@ -54,13 +54,13 @@ public class LayoutListPreference extends ListPreference {
 		CharSequence result = super.getSummary();
 		return TextUtils.expandTemplate(result, getEntry());
 	}
-	
+
 	@Override
 	public void setValue(String value) {
 		super.setValue(value);
 		notifyChanged();
 	}
-	
+
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		super.onPrepareDialogBuilder(builder);

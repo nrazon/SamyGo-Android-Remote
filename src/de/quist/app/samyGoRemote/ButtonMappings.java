@@ -92,9 +92,9 @@ public class ButtonMappings {
 	private static final int BTN_S_HDMI2 = 190;
 	private static final int BTN_S_HDMI3_DVI = 194;
 	private static final int BTN_S_HDMI4 = 197;
-	
+
 	public static final ArrayList<RemoteButton> BUTTONS = new ArrayList<RemoteButton>();
-	
+
 	static {
 		BUTTONS.add(new RemoteButton(R.id.btn_pwr_off, BTN_POWER_OFF));
 		BUTTONS.add(new RemoteButton(R.id.btn_tv, BTN_TV));
@@ -170,5 +170,5 @@ public class ButtonMappings {
 		BUTTONS.add(new RemoteButton(R.id.btn_s_hdmi3_dvi, BTN_S_HDMI3_DVI));
 		BUTTONS.add(new RemoteButton(R.id.btn_s_hdmi4, BTN_S_HDMI4));
 	}
-	
+
 }

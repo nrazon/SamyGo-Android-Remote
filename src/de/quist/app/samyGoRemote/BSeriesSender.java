@@ -31,11 +31,11 @@ public class BSeriesSender implements KeyCodeSender {
 		this.mHost = host;
 		this.mPort = port;
 	}
-	
+
 	public void initialize() throws IOException {
 		// Nothing to do, as we setup the connection when a key has to be sent
 	}
-	
+
 	public void sendCode(int... codes) throws UnknownHostException, IOException, InterruptedException {
 		Socket s = new Socket(mHost, mPort);
 		boolean first = true;
@@ -54,5 +54,5 @@ public class BSeriesSender implements KeyCodeSender {
 	public void uninitialize() {
 		// Nothing to do, as we setup the connection when a key has to be sent
 	}
-	
+
 }

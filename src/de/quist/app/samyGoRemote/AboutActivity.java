@@ -15,5 +15,5 @@ public class AboutActivity extends Activity {
 		TextView aboutText = (TextView) findViewById(R.id.about_text);
 		aboutText.setMovementMethod(LinkMovementMethod.getInstance());
 	}
-	
+
 }

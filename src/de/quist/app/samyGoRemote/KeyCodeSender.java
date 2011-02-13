@@ -10,7 +10,7 @@ public interface KeyCodeSender {
 	 * @throws IOException If the connection failed
 	 */
 	void initialize() throws IOException;
-	
+
 	/**
 	 * Sends the specified codes to the device.
 	 * 
@@ -19,11 +19,11 @@ public interface KeyCodeSender {
 	 * @throws InterruptedException If a waiting operation is being interrupted 
 	 */
 	void sendCode(int... codes) throws IOException, InterruptedException;
-	
+
 	/**
 	 * Is after all keys has been sent. Before {@link #sendCode(int...)} is called
 	 * again, {@link #initialize()} will be called.
 	 */
 	void uninitialize();
-	
+
 }

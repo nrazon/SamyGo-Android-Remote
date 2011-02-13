@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 
 public class SeekBarPreference extends DialogPreference {
-	
+
 	private static final String ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android";
 	private static final String SAMYGO_NAMESPACE = "http://samyGoRemote.app.quist.de/apk/res/android";
 
@@ -20,12 +20,12 @@ public class SeekBarPreference extends DialogPreference {
 	private static final String VALUE_TEXT_ATTRIBUTE = "valueText";
 	private static final String DEFAULT_VALUE_ATTRIBUTE = "defaultValue";
 	private static final String MAX_ATTRIBUTE = "max";
-	
+
 	private static final int DEFAULT_VALUE = 0;
 	private static final int DEFAULT_MAX = 100;
 
 	private Context mContext;
-	
+
 	private SeekBar mSeekBar;
 	private TextView mValueTextView;
 
@@ -40,7 +40,7 @@ public class SeekBarPreference extends DialogPreference {
 		mContext = context;
 		Resources res = context.getResources();
 		mDialogText = attrs.getAttributeValue(ANDROID_NAMESPACE,DIALOG_TEXT_ATTRIBUTE);
-		
+
 		// Get the dialog text
 		int dialogTextResource = attrs.getAttributeResourceValue(ANDROID_NAMESPACE, DIALOG_TEXT_ATTRIBUTE, -1);
 		if (dialogTextResource != -1) {
@@ -48,7 +48,7 @@ public class SeekBarPreference extends DialogPreference {
 		} else {
 			mDialogText = attrs.getAttributeValue(ANDROID_NAMESPACE, DIALOG_TEXT_ATTRIBUTE);
 		}
-		
+
 		// Get the value text
 		mValueText = attrs.getAttributeValue(SAMYGO_NAMESPACE, VALUE_TEXT_ATTRIBUTE);
 		int valueTextResource = attrs.getAttributeResourceValue(SAMYGO_NAMESPACE, VALUE_TEXT_ATTRIBUTE, -1);
@@ -57,7 +57,7 @@ public class SeekBarPreference extends DialogPreference {
 		} else {
 			mValueText = attrs.getAttributeValue(SAMYGO_NAMESPACE, VALUE_TEXT_ATTRIBUTE);
 		}
-		
+
 		mDefault = attrs.getAttributeIntValue(ANDROID_NAMESPACE,DEFAULT_VALUE_ATTRIBUTE, DEFAULT_VALUE);
 		mMax = attrs.getAttributeIntValue(ANDROID_NAMESPACE,MAX_ATTRIBUTE, DEFAULT_MAX);
 
@@ -74,10 +74,10 @@ public class SeekBarPreference extends DialogPreference {
 		} else {
 			messageTextView.setVisibility(View.GONE);
 		}
-		
+
 		// Value text
 		mValueTextView = (TextView) layout.findViewById(android.R.id.text2);
-		
+
 		// Seek bar
 		mSeekBar = (SeekBar) layout.findViewById(android.R.id.progress);
 		mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -106,10 +106,10 @@ public class SeekBarPreference extends DialogPreference {
 		if (shouldPersist()) {
 			mValue = getPersistedInt(mDefault);
 		}
-		
+
 		return layout;
 	}
-	
+
 	@Override
 	protected int getPersistedInt(int defaultReturnValue) {
 		int result;
@@ -121,14 +121,14 @@ public class SeekBarPreference extends DialogPreference {
 		}
 		return result;
 	}
-	
+
 	@Override 
 	protected void onBindDialogView(View view) {
 		super.onBindDialogView(view);
 		mSeekBar.setMax(mMax);
 		mSeekBar.setProgress(mValue);
 	}
-	
+
 	@Override
 	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
 		super.onSetInitialValue(restorePersistedValue, defaultValue);
