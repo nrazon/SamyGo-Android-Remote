@@ -20,8 +20,8 @@
 	<string name="menu_settings">Einstellungen</string>
 	<string name="menu_about">Infos</string>
 	<string name="about_title">Infos</string>
-	<string name="about_text">SamyGo Remote kann als Ersatz für die Fernbedienung deines Series-B Samsung TVs verwendet werden.
-\n\nUm deinen Fernseher fernsteuern zu können, musst du darauf <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> installieren. Wie das geht, wird <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=SamyGO_for_DUMMIES#Using_a_SamyGO_app">hier</a> erklärt.
+	<string name="about_text">SamyGo Remote kann als Ersatz für die Fernbedienung deines Series-B Samsung TVs verwendet werden. Es funktioniert nicht mit C-Serie Geräten!
+\n\nUm deinen Fernseher fernsteuern zu können, musst du darauf <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> installieren. Wie das geht, wird <a href="http://quist.de/2011/02/samsung-fernseher-per-android-fernsteuern/">hier</a> erklärt.
 \n\nBesonderen Dank an:
 \n-<a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=841">doodlecz</a> für <i>Remote Lan Control</i>
 \n-<a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=721">moras86</a> für das Icon

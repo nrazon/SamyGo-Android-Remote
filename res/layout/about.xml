@@ -15,13 +15,28 @@
      You can get the GNU General Public License at
      http://www.gnu.org/licenses/gpl.html
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="wrap_content">
 	<LinearLayout
+		android:id="@+id/bottom_bar"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:orientation="vertical">
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center_horizontal"
+		android:layout_alignParentBottom="true"
+		android:background="@android:drawable/bottom_bar">
+		<Button
+			android:id="@android:id/button1"
+			android:text="@android:string/ok"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+	</LinearLayout>
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_above="@id/bottom_bar">
 		<TextView
 			android:id="@+id/about_text"
 			android:layout_width="fill_parent"
@@ -30,5 +45,5 @@
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:linksClickable="true"
 			android:text="@string/about_text"/>
-	</LinearLayout>
-</ScrollView>
+	</ScrollView>
+</RelativeLayout>

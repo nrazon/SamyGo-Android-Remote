@@ -36,10 +36,12 @@ import android.widget.Toast;
 
 public class Remote extends Activity {
 
+	private static final String PREFS_ABOUT_DIALOG_SHOWN_KEY = "aboutDialogShown";
+	private static final boolean PREFS_ABOUT_DIALOG_SHOWN_DEFAULT = false;
 	public static final String PREFS_LAYOUT_KEY = "layout";
 	public static final String PREFS_LAYOUT_DEFAULT = "layout:de.quist.app.samyGoRemote.bn59_00861a";
 	public static final String PREFS_SERVER_HOST_KEY = "serverHost";
-	public static final String PREFS_SERVER_HOST_DEFAULT = "change ip adress";
+	public static final String PREFS_SERVER_HOST_DEFAULT = "Please change the IP address in settings";
 	public static final String PREFS_SERVER_PORT_KEY = "serverPort";
 	public static final String PREFS_SERVER_PORT_DEFAULT = "2345";
 	public static final String PREFS_VIBRATE_KEY = "vibrationDuration";
@@ -77,6 +79,14 @@ public class Remote extends Activity {
 				});
 			}
 		}
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if (!prefs.getBoolean(PREFS_ABOUT_DIALOG_SHOWN_KEY, PREFS_ABOUT_DIALOG_SHOWN_DEFAULT)) {
+			SharedPreferences.Editor edit = prefs.edit();
+			edit.putBoolean(PREFS_ABOUT_DIALOG_SHOWN_KEY, true);
+			edit.commit();
+			Intent aboutActivity = new Intent(this, AboutActivity.class);
+			startActivity(aboutActivity);
+		}
 	}
 
 	private void initPrefs() {
@@ -98,6 +108,10 @@ public class Remote extends Activity {
 		if (!prefs.contains(PREFS_LAYOUT_KEY)) {
 			changes = true;
 			edit.putString(PREFS_LAYOUT_KEY, PREFS_LAYOUT_DEFAULT);
+		}
+		if (!prefs.contains(PREFS_ABOUT_DIALOG_SHOWN_KEY)) {
+			changes = true;
+			edit.putBoolean(PREFS_ABOUT_DIALOG_SHOWN_KEY, PREFS_ABOUT_DIALOG_SHOWN_DEFAULT);
 		}
 		try {
 			layoutManager.getLayoutResource(prefs.getString(PREFS_LAYOUT_KEY, ""));
@@ -144,7 +158,7 @@ public class Remote extends Activity {
 				this.vibrationDuration = Integer.parseInt(prefs.getString(PREFS_VIBRATE_KEY, Integer.toString(PREFS_VIBRATE_DEFAULT)));
 			} catch (NumberFormatException e1) { }
 		}
-
+		
 		// Initialize the connection asynchronous
 		new AsyncTask<Void, Void, Boolean>() {
 
