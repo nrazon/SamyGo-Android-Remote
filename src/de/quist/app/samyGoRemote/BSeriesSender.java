@@ -34,6 +34,8 @@ public class BSeriesSender implements KeyCodeSender {
 
 	public void initialize() throws IOException {
 		// Nothing to do, as we setup the connection when a key has to be sent
+		Socket s =  new Socket(mHost, mPort);
+		s.close();
 	}
 
 	public void sendCode(int... codes) throws UnknownHostException, IOException, InterruptedException {

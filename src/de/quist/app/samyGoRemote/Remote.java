@@ -167,8 +167,13 @@ public class Remote extends Activity {
 		mKeyCodeSender = KeyCodeSenderFactory.createKeyCodeSender(prefs);
 		try {
 			mKeyCodeSender.initialize();
-		} catch (IOException e) {
-			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		} catch (final IOException e) {
+			mHandler.post(new Runnable() {
+				
+				public void run() {
+					Toast.makeText(Remote.this, e.getMessage(), Toast.LENGTH_LONG).show();
+				}
+			});
 			return false;
 		}
 		return true;
