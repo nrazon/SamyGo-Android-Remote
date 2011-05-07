@@ -104,7 +104,7 @@ public class Remote extends Activity {
 			changes = true;
 			edit.putString(PREFS_SERVER_HOST_KEY, PREFS_SERVER_HOST_DEFAULT);
 		}
-		if (!prefs.contains(PREFS_SERVER_PORT_KEY)) {
+		if (!prefs.contains(PREFS_SERVER_PORT_KEY) || prefs.getString(PREFS_SERVER_PORT_KEY, "").trim().equals("")) {
 			changes = true;
 			edit.putString(PREFS_SERVER_PORT_KEY, PREFS_SERVER_PORT_DEFAULT);
 		}
