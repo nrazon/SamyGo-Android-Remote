@@ -35,6 +35,11 @@ public class BSeriesSender implements KeyCodeSender {
 	public void initialize() throws IOException {
 		// Nothing to do, as we setup the connection when a key has to be sent
 		Socket s =  new Socket(mHost, mPort);
+		OutputStream out = s.getOutputStream();
+		OutputStreamWriter writer = new OutputStreamWriter(out);
+		writer.write(Integer.toString(237));
+		writer.write('\n');
+		writer.flush();
 		s.close();
 	}
 

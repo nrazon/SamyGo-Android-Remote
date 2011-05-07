@@ -41,6 +41,12 @@
 	<string name="prefs_vibration_duration_summary">Duration of vibration on button click</string>
 	<string name="prefs_vibration_duration_value">^1ms</string>
 	
+	<string name="tv_discovery_button">Find TV automatically</string>
+	<string name="tv_discovery_found">TV has been found</string>
+	<string name="tv_discovery_not_found">No TV found</string>
+	<string name="tv_discovery_progress_title">Searching</string>
+	<string name="tv_discovery_progress_message">Searching for TV\nMake sure the TV is turned on and WLAN is active!</string>
+	
 	<string name="layout_simple_name">Minimal</string>
 	<string name="layout_b650_name">B650</string>
 	<string name="layout_b650_0938_name">B650 (alternative)</string>

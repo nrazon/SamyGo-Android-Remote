@@ -19,7 +19,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
   		android:title="@string/prefs_category_server_title">
-	  	<EditTextPreference
+	  	<de.quist.app.samyGoRemote.HostnamePreference
 			android:key="serverHost"
 			android:title="@string/prefs_server_host_title"
 			android:summary="@string/prefs_server_host_summary"/>

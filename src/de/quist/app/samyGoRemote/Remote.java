@@ -17,8 +17,11 @@
 package de.quist.app.samyGoRemote;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
+
+import de.quist.app.samyGoRemote.upnp.Discovery;
 
 import android.app.Activity;
 import android.content.Context;
@@ -91,7 +94,7 @@ public class Remote extends Activity {
 
 	private void initPrefs() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor edit = prefs.edit();
+		final SharedPreferences.Editor edit = prefs.edit();
 		boolean changes = false;
 		if (!prefs.contains(PREFS_VIBRATE_KEY)) {
 			changes = true;
@@ -121,6 +124,29 @@ public class Remote extends Activity {
 		}
 		if (changes) {
 			edit.commit();
+		}
+		if (prefs.getString(PREFS_SERVER_HOST_KEY, PREFS_SERVER_HOST_DEFAULT).equals(PREFS_SERVER_HOST_DEFAULT)) {
+			Discovery discovery = new Discovery() {
+				protected void onPostExecute(InetAddress addr) {
+					if (addr != null) {
+						edit.putString(PREFS_SERVER_HOST_KEY, addr.getHostAddress());
+						edit.commit();
+						new AsyncTask<Void, Void, Boolean>() {
+
+							@Override
+							protected Boolean doInBackground(Void... params) {
+								return initializeConnection();
+							}
+
+							protected void onPostExecute(Boolean result) {
+								Remote.this.initialized = result;
+							};
+
+						}.execute();
+					}
+				};
+			};
+			discovery.execute();
 		}
 	}
 
