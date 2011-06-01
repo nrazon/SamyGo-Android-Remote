@@ -76,7 +76,7 @@ public class Discovery extends AsyncTask<Integer, Integer, InetAddress> {
 			
 			// First send a search message
 			//String searchMessage = String.format(SEARCH_TEAMPLTE, "upnp:rootdevice", 3);
-			String searchMessage = String.format(SEARCH_TEAMPLTE, "urn:samsung.com:device:RemoteControlReceiver:1", 3);
+			String searchMessage = String.format(SEARCH_TEAMPLTE, REMOCON_SN, 3);
 			byte[] buffer = searchMessage.getBytes("UTF-8");
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length, MULTICAST_ADDRESS, DEFAULT_PORT);
 			socket.send(packet);
