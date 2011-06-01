@@ -17,11 +17,13 @@
 -->
 <resources>
     <string name="app_name">SamyGo Remote</string>
+    <string name="menu_textinput">Text eingeben</string>
 	<string name="menu_settings">Einstellungen</string>
 	<string name="menu_about">Infos</string>
+	<string name="text_input_title">Texteingabe</string>
 	<string name="about_title">Infos</string>
-	<string name="about_text">SamyGo Remote kann als Ersatz für die Fernbedienung deines Series-B Samsung TVs verwendet werden. Es funktioniert nicht mit C-Serie Geräten!
-\n\nUm deinen Fernseher fernsteuern zu können, musst du darauf <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> installieren. Wie das geht, wird <a href="http://quist.de/2011/02/samsung-fernseher-per-android-fernsteuern/">hier</a> erklärt.
+	<string name="about_text">SamyGo Remote kann als Ersatz für die Fernbedienung deines B, C oder D-Serie Samsung TVs verwendet werden.
+\n\nACHTUNG für B-Serie Fernseher: Um deinen Fernseher fernsteuern zu können, musst du darauf <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> installieren. Wie das geht, wird <a href="http://quist.de/2011/02/samsung-fernseher-per-android-fernsteuern/">hier</a> erklärt.
 \n\nBesonderen Dank an:
 \n-<a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=841">doodlecz</a> für <i>Remote Lan Control</i>
 \n-<a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=721">moras86</a> für das Icon
@@ -29,6 +31,8 @@
 	</string>
 	
 	<string name="prefs_category_server_title">Server</string>
+	<string name="prefs_server_sender_title">TV Modellnummer</string>
+	<string name="prefs_server_sender_summary">Die Modell Serie des Fernsehers</string>
 	<string name="prefs_server_host_title">Hostname</string>
 	<string name="prefs_server_host_summary">Der hostname oder die IP-Adresse des TVs</string>
 	<string name="prefs_server_port_title">Port</string>
@@ -51,6 +55,10 @@
 	<string name="layout_b650_name">B650</string>
 	<string name="layout_b650_0938_name">B650 (Alternative)</string>
 	<string name="layout_b6000_name">B6000</string>
+	
+	<string name="enable_wifi">WLAN ist nicht aktiv. Sie müssen mit einem Access-Point verbunden sein, um nach dem Fernseher zu suchen.</string>
+	
+	<string name="b_series_info">ACHTUNG: Bitte lies den Info-Dialog. Dort wird erklärt, wie du deinen B-Serie TV einrichten musst.</string>
 	
 	<string name="btn_1">1</string>
 	<string name="btn_2">2</string>

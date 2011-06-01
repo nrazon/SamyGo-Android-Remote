@@ -1,0 +1,7 @@
+
+    <resources>
+        <string-array name="prefs_server_sender_entries">
+        	<item>B-Serie</item>
+        	<item>C-Serie oder D-Serie</item>
+        </string-array>
+    </resources>

@@ -1,0 +1,274 @@
+package de.quist.samy.remocon;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.concurrent.TimeoutException;
+
+
+public class RemoteSession {
+
+	private static final String APP_STRING = "iphone.iapp.samsung";
+	private static final String TV_APP_STRING = "iphone..iapp.samsung";
+	
+	private static final char[] ALLOWED_BYTES = new char[] {0x64, 0x00, 0x01, 0x00};
+	private static final char[] DENIED_BYTES = new char[] {0x64, 0x00, 0x00, 0x00};
+	private static final char[] TIMEOUT_BYTES = new char[] {0x65, 0x00};
+
+	public static final int UNKNOWN = -1;
+	public static final int ALLOWED = 0;
+	public static final int DENIED = 1;
+	public static final int TIMEOUT = 2;
+	private static final String TAG = RemoteSession.class.getSimpleName();
+	
+	private String applicationName;
+	private String uniqueId;
+	private String host;
+	private int port;
+
+	private Socket socket;
+
+	private InputStreamReader reader;
+
+	private BufferedWriter writer;
+	private Loggable logger;
+
+	private RemoteSession(String applicationName, String uniqueId, String host, int port, Loggable logger) {
+		this.applicationName = applicationName;
+		this.uniqueId = uniqueId;
+		if (uniqueId == null) {
+			uniqueId = "";
+		}
+		this.host = host;
+		this.port = port;
+		this.logger = logger;
+	}
+	
+	public static RemoteSession create(String applicationName, String uniqueId, String host, int port, Loggable logger) throws IOException, ConnectionDeniedException, TimeoutException {
+		RemoteSession session = new RemoteSession(applicationName, uniqueId, host, port, logger);
+		try {
+			int result = session.initialize();
+			if (result == ALLOWED) {
+				return session;
+			} else if (result == DENIED) {
+				throw new ConnectionDeniedException();
+			} else if (result == TIMEOUT) {
+				throw new TimeoutException();
+			} else {
+				throw new UnknownError();
+			}
+		} catch (IOException e) {
+			throw e;
+		}
+	}
+	
+	public static RemoteSession create(String applicationName, String uniqueId, String host, int port) throws IOException, ConnectionDeniedException, TimeoutException {
+		return create(applicationName, uniqueId, host, port, null);
+	}
+
+	private int initialize() throws UnknownHostException, IOException {
+		if (logger != null) logger.v(TAG, "Creating socket for host " + host + " on port " + port);
+		socket = new Socket(host, port);
+		if (logger != null) logger.v(TAG, "Socket successfully created and connected");
+		InetAddress localAddress = socket.getLocalAddress();
+		if (logger != null) logger.v(TAG, "Local address is " + localAddress.getHostAddress());
+		
+		if (logger != null) logger.v(TAG, "Sending registration message");
+		writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		writer.append((char)0x00);
+		writeText(writer, APP_STRING);
+		writeText(writer, getRegistrationPayload(localAddress.getHostAddress()));
+		writer.flush();
+		
+		InputStream in = socket.getInputStream();
+		reader = new InputStreamReader(in);
+		int result = readRegistrationReply(reader);
+		//sendPart2();
+		int i;
+		while ((i = in.available()) > 0) {
+			in.skip(i);
+		}
+		return result;
+	}
+	
+	private void sendPart2() throws IOException {
+		writer.append((char)0x00);
+		writeText(writer, TV_APP_STRING);
+		writeText(writer, new String(new char[] {0xc8, 0x00}));
+	}
+	
+	private void checkConnection() throws UnknownHostException, IOException {
+		if (socket.isClosed() || !socket.isConnected()) {
+			if (logger != null) logger.v(TAG, "Connection closed, trying to reconnect...");
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// Ignore any exception
+			}
+			initialize();
+			if (logger != null) logger.v(TAG, "Reconnected to server");
+		}
+	}
+	
+	public void destroy() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// Ignore exception
+		}
+	}
+	
+	private int readRegistrationReply(Reader reader) throws IOException {
+		if (logger != null) logger.v(TAG, "Reading registration reply");
+		reader.read(); // Unknown byte 0x02
+		String text1 = readText(reader); // Read "unknown.livingroom.iapp.samsung" for new RC and "iapp.samsung" for already registered RC
+		if (logger != null) logger.v(TAG, "Received ID: " + text1);
+		char[] result = readCharArray(reader); // Read result sequence
+		if (Arrays.equals(result, ALLOWED_BYTES)) {
+			if (logger != null) logger.v(TAG, "Registration successfull");
+			return ALLOWED;
+		} else if (Arrays.equals(result, DENIED_BYTES)) {
+			if (logger != null) logger.w(TAG, "Registration denied");
+			return DENIED;
+		} else if (Arrays.equals(result, TIMEOUT_BYTES)) {
+			if (logger != null) logger.w(TAG, "Registration timed out");
+			return TIMEOUT;
+		} else {
+			if (logger != null) {
+				StringBuilder sb = new StringBuilder();
+				for (char c : result) {
+					sb.append(Integer.toHexString(c));
+					sb.append(' ');
+				}
+				logger.e(TAG, "Received unknown registration reply: "+sb.toString());
+			}
+			return UNKNOWN;
+		}
+	}
+	
+	private String getRegistrationPayload(String ip) throws IOException {
+		StringWriter writer = new StringWriter();
+		writer.append((char)0x64);
+		writer.append((char) 0x00);
+		writeBase64Text(writer, ip);
+		writeBase64Text(writer, uniqueId);
+		writeBase64Text(writer, applicationName);
+		writer.flush();
+		return writer.toString();
+	}
+	
+	private static String readText(Reader reader) throws IOException {
+		char[] buffer = readCharArray(reader);
+		return new String(buffer);
+	}
+	
+	private static char[] readCharArray(Reader reader) throws IOException {
+		if (reader.markSupported()) reader.mark(1024);
+		int length = reader.read();
+		int delimiter = reader.read();
+		if (delimiter != 0) {
+			if (reader.markSupported()) reader.reset();
+			throw new IOException("Unsupported reply exception");
+		}
+		char[] buffer = new char[length];
+		reader.read(buffer);
+		return buffer;
+	}
+	
+	private static Writer writeText(Writer writer, String text) throws IOException {
+		return writer.append((char)text.length()).append((char) 0x00).append(text);
+	}
+	
+	private static Writer writeBase64Text(Writer writer, String text) throws IOException {
+		String b64 = Base64.encodeBytes(text.getBytes());
+		return writeText(writer, b64);
+	}
+	
+	private void internalSendKey(Key key) throws IOException {
+		writer.append((char)0x00);
+		writeText(writer, TV_APP_STRING);
+		writeText(writer, getKeyPayload(key));
+		writer.flush();
+		int i = reader.read(); // Unknown byte 0x00
+		String t = readText(reader);  // Read "iapp.samsung"
+		char[] c = readCharArray(reader);
+		System.out.println(i);
+		System.out.println(t);
+		for (char a : c) System.out.println(Integer.toHexString(a));
+		//System.out.println(c);
+	}
+	
+	public void sendKey(Key key) throws IOException {
+		if (logger != null) logger.v(TAG, "Sending key " + key.getValue() + "...");
+		checkConnection();
+		try {
+			internalSendKey(key);
+		} catch (SocketException e) {
+			if (logger != null) logger.v(TAG, "Could not send key because the server closed the connection. Reconnecting...");
+			initialize();
+			if (logger != null) logger.v(TAG, "Sending key " + key.getValue() + " again...");
+			internalSendKey(key);
+		}
+		if (logger != null) logger.v(TAG, "Successfully sent key " + key.getValue());
+	}
+
+	private String getKeyPayload(Key key) throws IOException {
+		StringWriter writer = new StringWriter();
+		writer.append((char)0x00);
+		writer.append((char)0x00);
+		writer.append((char)0x00);
+		writeBase64Text(writer, key.getValue());
+		writer.flush();
+		return writer.toString();
+	}
+	
+	private void internalSendText(String text) throws IOException {
+		writer.append((char)0x01);
+		writeText(writer, TV_APP_STRING);
+		writeText(writer, getTextPayload(text));
+		writer.flush();
+		if (!reader.ready()) {
+			return;
+		}
+		int i = reader.read(); // Unknown byte 0x02
+		System.out.println(i);
+		String t = readText(reader); // Read "iapp.samsung"
+		char[] c = readCharArray(reader);
+		System.out.println(i);
+		System.out.println(t);
+		for (char a : c) System.out.println(Integer.toHexString(a));
+	}
+	
+	public void sendText(String text) throws IOException {
+		if (logger != null) logger.v(TAG, "Sending text \"" + text + "\"...");
+		checkConnection();
+		try {
+			internalSendText(text);
+		} catch (SocketException e) {
+			if (logger != null) logger.v(TAG, "Could not send key because the server closed the connection. Reconnecting...");
+			initialize();
+			if (logger != null) logger.v(TAG, "Sending text \"" + text + "\" again...");
+			internalSendText(text);
+		}
+		if (logger != null) logger.v(TAG, "Successfully sent text \"" + text + "\"");
+	}
+
+	private String getTextPayload(String text) throws IOException {
+		StringWriter writer = new StringWriter();
+		writer.append((char)0x01);
+		writer.append((char)0x00);
+		writeBase64Text(writer, text);
+		writer.flush();
+		return writer.toString();
+	}
+
+}

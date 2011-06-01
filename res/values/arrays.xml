@@ -1,0 +1,11 @@
+
+    <resources>
+        <string-array name="prefs_server_sender_entries">
+        	<item>B-Series</item>
+        	<item>C-Series or D-Series</item>
+        </string-array>
+        <string-array name="prefs_server_sender_values">
+        	<item>de.quist.app.samyGoRemote.BSeriesKeyCodeSenderFactory</item>
+        	<item>de.quist.app.samyGoRemote.CSeriesKeyCodeSenderFactory</item>
+        </string-array>
+    </resources>

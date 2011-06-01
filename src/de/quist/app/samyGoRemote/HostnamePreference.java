@@ -18,8 +18,11 @@ package de.quist.app.samyGoRemote;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.Vibrator;
 import android.preference.EditTextPreference;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,14 @@ import android.widget.Toast;
 import de.quist.app.samyGoRemote.upnp.Discovery;
 
 public class HostnamePreference extends EditTextPreference {
+
+	public interface OnSenderFactoryChangeListener {
+
+		boolean onSenderFactoryChange(String newValue);
+		
+	}
+
+	private OnSenderFactoryChangeListener onSenderFactoryChangeListener;
 
 	public HostnamePreference(Context context) {
 		super(context);
@@ -48,6 +59,11 @@ public class HostnamePreference extends EditTextPreference {
 		button.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
+				WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
+				if (!wifiManager.isWifiEnabled() || wifiManager.getConnectionInfo().getIpAddress() == 0) {
+					Toast.makeText(getContext(), R.string.enable_wifi, Toast.LENGTH_LONG).show();
+				}
+				
 				Discovery d = new Discovery() {
 					private ProgressDialog progress;
 
@@ -61,6 +77,16 @@ public class HostnamePreference extends EditTextPreference {
 					protected void onPostExecute(java.net.InetAddress result) {
 						if (progress != null) progress.dismiss();
 						if (result != null) {
+							SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+							if (isCSeries) {
+								prefs.edit().putString(Remote.PREFS_SENDER_FACTORY_KEY, CSeriesKeyCodeSenderFactory.class.getCanonicalName()).commit();
+							} else {
+								prefs.edit().putString(Remote.PREFS_SENDER_FACTORY_KEY, BSeriesKeyCodeSenderFactory.class.getCanonicalName()).commit();
+							}
+							if (onSenderFactoryChangeListener != null) {
+								onSenderFactoryChangeListener.onSenderFactoryChange(prefs.getString(Remote.PREFS_SENDER_FACTORY_KEY, Remote.PREFS_SENDER_FACTORY_DEFAULT));
+							}
+							notifyDependencyChange(false);
 							getEditText().setText(result.getHostName());
 							Toast.makeText(getContext(), R.string.tv_discovery_found, Toast.LENGTH_LONG).show();
 							Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -75,6 +101,10 @@ public class HostnamePreference extends EditTextPreference {
 		});
 		button.setText(R.string.tv_discovery_button);
 		((ViewGroup)((ViewGroup) view).getChildAt(0)).addView(button);
+	}
+	
+	public void setOnSenderFactoryChangeListener(OnSenderFactoryChangeListener onSenderFactoryChangeListener) {
+		this.onSenderFactoryChangeListener = onSenderFactoryChangeListener;
 	}
 	
 }

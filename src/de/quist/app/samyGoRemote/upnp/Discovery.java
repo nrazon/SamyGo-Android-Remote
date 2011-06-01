@@ -26,14 +26,19 @@ import java.net.UnknownHostException;
 
 import android.os.AsyncTask;
 import android.os.SystemClock;
+import android.util.Log;
 
 public class Discovery extends AsyncTask<Integer, Integer, InetAddress> {
 
 	public final static InetAddress MULTICAST_ADDRESS;
     public final static short DEFAULT_PORT = 1900;
     private static final int DEFAULT_TIMEOUT = 10000;
-    private static final String MEDIA_RENDERER_UUID = "uuid:d77fcf8a-4085-016d-9875-c100b108b138";
-    private static final String PERSONAL_MESSAGE_RECEIVER_UUID = "uuid:36c70c93-2915-477b-33d7-26643712c6f8";
+    private static final String MEDIA_RENDERER_UUID = "SamsungMRDesc.xml";
+    private static final String PERSONAL_MESSAGE_RECEIVER_UUID = "PersonalMessageReceiver.xml";
+    private static final String REMOTE_CONTROL_RECEIVER_UUID = "RemoteControlReceiver.xml";
+    private static final String REMOCON_SN = "urn:samsung.com:device:RemoteControlReceiver:1";
+    
+
 
 	static {
         try {
@@ -52,12 +57,14 @@ public class Discovery extends AsyncTask<Integer, Integer, InetAddress> {
         "MX: %d\r\n" +
         "\r\n";
 	private int timeout = DEFAULT_TIMEOUT;
+	protected boolean isCSeries = false;
 	
 	@Override
 	public InetAddress doInBackground(Integer... params) {
 		if (params.length > 0) {
 			this.timeout  = params[0]; 
 		}
+		this.isCSeries = false;
 		return sendSearchMessage();
 	}
 	
@@ -68,25 +75,40 @@ public class Discovery extends AsyncTask<Integer, Integer, InetAddress> {
 			socket.joinGroup(MULTICAST_ADDRESS);
 			
 			// First send a search message
-			String searchMessage = String.format(SEARCH_TEAMPLTE, "upnp:rootdevice", 3);
+			//String searchMessage = String.format(SEARCH_TEAMPLTE, "upnp:rootdevice", 3);
+			String searchMessage = String.format(SEARCH_TEAMPLTE, "urn:samsung.com:device:RemoteControlReceiver:1", 3);
 			byte[] buffer = searchMessage.getBytes("UTF-8");
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length, MULTICAST_ADDRESS, DEFAULT_PORT);
+			socket.send(packet);
+			
+			searchMessage = String.format(SEARCH_TEAMPLTE, "urn:schemas-upnp-org:device:MediaRenderer:1", 3);
+			buffer = searchMessage.getBytes("UTF-8");
+			packet = new DatagramPacket(buffer, buffer.length, MULTICAST_ADDRESS, DEFAULT_PORT);
 			socket.send(packet);
 			
 			// Now listen for replies
 			buffer = new byte[8192];
 			packet = new DatagramPacket(buffer, buffer.length);
 			long start = SystemClock.uptimeMillis();
+			InetAddress addr = null;
 			while (SystemClock.uptimeMillis() - start < timeout) {
 				try {
 					int soTimeout = (int)(timeout - (SystemClock.uptimeMillis()-start));
 					if (soTimeout < 0) break;
 					socket.setSoTimeout(soTimeout);
 					socket.receive(packet);
-					InetAddress addr = processPacket(packet);
-					if (addr != null) {
+					String data = new String(packet.getData(), 0, packet.getLength());
+					Log.d("TESTSDASDSADA", data);
+					if (data.contains(REMOTE_CONTROL_RECEIVER_UUID)) {
+						
+						// We have a C- or D-Series TV
+						addr = packet.getAddress();
+						this.isCSeries  = true;
 						socket.close();
 						return addr;
+					} else if (data.contains(PERSONAL_MESSAGE_RECEIVER_UUID) || data.contains(MEDIA_RENDERER_UUID)) {
+						// B-Series
+						addr = packet.getAddress();
 					}
 					
 					buffer = new byte[8192];
@@ -96,28 +118,11 @@ public class Discovery extends AsyncTask<Integer, Integer, InetAddress> {
 				}
 			}
 			socket.close();
+			return addr;
 		} catch (UnsupportedEncodingException e) {
 			// Should never happen
 		} catch (IOException e) {
 			
-		}
-		return null;
-	}
-	
-	/**
-	 * Parses all headers of the packet and searches for the TV.
-	 *  
-	 * @param packet
-	 * @return
-	 */
-	private InetAddress processPacket(DatagramPacket packet) {
-		try {
-			String data = new String(packet.getData(), 0, packet.getLength());
-			if (data.contains(PERSONAL_MESSAGE_RECEIVER_UUID) || data.contains(MEDIA_RENDERER_UUID)) {
-				return packet.getAddress();
-			}
-		} catch (Exception e) {
-			// Just ignore any exception
 		}
 		return null;
 	}

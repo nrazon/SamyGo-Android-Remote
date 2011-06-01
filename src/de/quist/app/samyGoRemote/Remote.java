@@ -21,21 +21,28 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 
-import de.quist.app.samyGoRemote.upnp.Discovery;
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
+import de.quist.app.samyGoRemote.upnp.Discovery;
 
 public class Remote extends Activity {
 
@@ -49,10 +56,10 @@ public class Remote extends Activity {
 	public static final String PREFS_SERVER_PORT_DEFAULT = "2345";
 	public static final String PREFS_VIBRATE_KEY = "vibrationDuration";
 	public static final int PREFS_VIBRATE_DEFAULT = 50;
-	public static final String PREFS_KEY_CODE_SENDER_FACTORY_KEY = "keyCodeSenderFactory";
-	public static final String PREFS_KEY_CODE_SENDER_FACTORY_DEFAULT = BSeriesKeyCodeSenderFactory.class.getCanonicalName();
+	public static final String PREFS_SENDER_FACTORY_KEY = "keyCodeSenderFactory";
+	public static final String PREFS_SENDER_FACTORY_DEFAULT = CSeriesKeyCodeSenderFactory.class.getCanonicalName();
 
-	private KeyCodeSender mKeyCodeSender;
+	private Sender mSender;
 	private Handler mHandler = new Handler();
 	private int contentView;
 	private int currentContentView;
@@ -130,6 +137,9 @@ public class Remote extends Activity {
 				protected void onPostExecute(InetAddress addr) {
 					if (addr != null) {
 						edit.putString(PREFS_SERVER_HOST_KEY, addr.getHostAddress());
+						if (this.isCSeries) {
+							edit.putString(PREFS_SENDER_FACTORY_KEY, CSeriesKeyCodeSenderFactory.class.getCanonicalName());
+						}
 						edit.commit();
 						new AsyncTask<Void, Void, Boolean>() {
 
@@ -202,11 +212,12 @@ public class Remote extends Activity {
 	}
 
 	private boolean initializeConnection() {
-		if (mKeyCodeSender != null) mKeyCodeSender.uninitialize();
+		if (mSender != null) mSender.uninitialize();
+		mSender = null;
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mKeyCodeSender = KeyCodeSenderFactory.createKeyCodeSender(prefs);
+		mSender = SenderFactory.createKeyCodeSender(this, prefs);
 		try {
-			mKeyCodeSender.initialize();
+			mSender.initialize();
 		} catch (final IOException e) {
 			mHandler.post(new Runnable() {
 				
@@ -223,10 +234,13 @@ public class Remote extends Activity {
 		@Override
 		protected Void doInBackground(Integer... codes) {
 			try {
-				if (!Remote.this.initialized) Remote.this.mKeyCodeSender.initialize();
-				mKeyCodeSender.sendCode(integerArrayToIntArray(codes));
-				if (codes[codes.length-1] == ButtonMappings.BTN_POWER_OFF) {
-					finish();
+				if (!Remote.this.initialized) Remote.this.mSender.initialize();
+				if (mSender instanceof KeyCodeSender) {
+					KeyCodeSender keyCodeSender = (KeyCodeSender) mSender;
+					keyCodeSender.sendCode(integerArrayToIntArray(codes));
+					if (codes[codes.length-1] == ButtonMappings.BTN_POWER_OFF) {
+						finish();
+					}
 				}
 			} catch (InterruptedException e) {
 
@@ -271,6 +285,17 @@ public class Remote extends Activity {
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem textInputItem = menu.findItem(R.id.menu_item_textinput);
+		if (mSender instanceof TextSender) {
+			textInputItem.setVisible(true);
+		} else {
+			textInputItem.setVisible(false);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -283,8 +308,50 @@ public class Remote extends Activity {
 			Intent aboutActivity = new Intent(this, AboutActivity.class);
 			startActivity(aboutActivity);
 			break;
+		case R.id.menu_item_textinput:
+			showInputDialog();
 		}
 		return super.onMenuItemSelected(featureId, item);
+	}
+
+	private void showInputDialog() {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.text_input_title);
+		EditText edit = new EditText(this);
+		edit.addTextChangedListener(new TextWatcher() {
+			
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void afterTextChanged(Editable s) {
+				TextSender sender = (TextSender) mSender;
+				try {
+					sender.sendText(s.toString());
+				} catch (IOException e) {
+					
+				} catch (InterruptedException e) {
+					
+				}
+			}
+		});
+		builder.setView(edit);
+		AlertDialog d = builder.create();
+		d.setOnDismissListener(new OnDismissListener() {
+			
+			public void onDismiss(DialogInterface dialog) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			}
+		});
+		d.show();
 	}
 
 	public static void vibrate(Context context, long millis) {

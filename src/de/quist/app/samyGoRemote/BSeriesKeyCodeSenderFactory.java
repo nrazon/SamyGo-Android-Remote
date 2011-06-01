@@ -16,18 +16,19 @@
  */
 package de.quist.app.samyGoRemote;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
-public class BSeriesKeyCodeSenderFactory extends KeyCodeSenderFactory {
+public class BSeriesKeyCodeSenderFactory extends SenderFactory {
 
 	@Override
-	protected KeyCodeSender create(SharedPreferences prefs) {
+	protected KeyCodeSender create(Context ctx, SharedPreferences prefs) {
 		String host = prefs.getString(Remote.PREFS_SERVER_HOST_KEY, "");
 		int port = Integer.parseInt(Remote.PREFS_SERVER_PORT_DEFAULT);
 		try {
 			port = Integer.parseInt(prefs.getString(Remote.PREFS_SERVER_PORT_KEY, Remote.PREFS_SERVER_PORT_DEFAULT));
 		} catch (NumberFormatException e) { }
-
+		if (port <= 0 || port >= 65535) port = 1234;
 		KeyCodeSender keyCodeSender = new BSeriesSender(host, port);
 		return keyCodeSender;
 	}

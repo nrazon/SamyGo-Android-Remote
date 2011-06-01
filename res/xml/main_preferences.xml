@@ -19,6 +19,14 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
   		android:title="@string/prefs_category_server_title">
+  		<ListPreference
+			android:key="keyCodeSenderFactory"
+			android:title="@string/prefs_server_sender_title"
+			android:summary="@string/prefs_server_sender_summary"
+			android:defaultValue="de.quist.app.samyGoRemote.CSeriesKeyCodeSenderFactory"
+			android:entries="@array/prefs_server_sender_entries"
+			android:entryValues="@array/prefs_server_sender_values"
+			android:dependency="serverHost"/>
 	  	<de.quist.app.samyGoRemote.HostnamePreference
 			android:key="serverHost"
 			android:title="@string/prefs_server_host_title"
@@ -28,7 +36,8 @@
 			android:title="@string/prefs_server_port_title"
 			android:summary="@string/prefs_server_port_summary"
 			android:numeric="integer"
-			android:defaultValue="2345"/>
+			android:defaultValue="2345"
+			android:dependency="keyCodeSenderFactory"/>
 	</PreferenceCategory>
 	<PreferenceCategory
   		android:title="@string/prefs_category_user_interface_title">
