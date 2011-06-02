@@ -40,10 +40,9 @@ public class RemoteSession {
 	private static final char[] DENIED_BYTES = new char[] {0x64, 0x00, 0x00, 0x00};
 	private static final char[] TIMEOUT_BYTES = new char[] {0x65, 0x00};
 
-	public static final int UNKNOWN = -1;
-	public static final int ALLOWED = 0;
-	public static final int DENIED = 1;
-	public static final int TIMEOUT = 2;
+	public static final String ALLOWED = "ALLOWED";
+	public static final String DENIED = "DENIED";
+	public static final String TIMEOUT = "TIMEOUT";
 	private static final String TAG = RemoteSession.class.getSimpleName();
 	
 	private String applicationName;
@@ -71,19 +70,15 @@ public class RemoteSession {
 	
 	public static RemoteSession create(String applicationName, String uniqueId, String host, int port, Loggable logger) throws IOException, ConnectionDeniedException, TimeoutException {
 		RemoteSession session = new RemoteSession(applicationName, uniqueId, host, port, logger);
-		try {
-			int result = session.initialize();
-			if (result == ALLOWED) {
-				return session;
-			} else if (result == DENIED) {
-				throw new ConnectionDeniedException();
-			} else if (result == TIMEOUT) {
-				throw new TimeoutException();
-			} else {
-				throw new UnknownError();
-			}
-		} catch (IOException e) {
-			throw e;
+		String result = session.initialize();
+		if (result.equals(ALLOWED)) {
+			return session;
+		} else if (result.equals(DENIED)) {
+			throw new ConnectionDeniedException();
+		} else if (result.equals(TIMEOUT)) {
+			throw new TimeoutException();
+		} else {
+			throw new UnknownError("TV returned " + result);
 		}
 	}
 	
@@ -91,7 +86,7 @@ public class RemoteSession {
 		return create(applicationName, uniqueId, host, port, null);
 	}
 
-	private int initialize() throws UnknownHostException, IOException {
+	private String initialize() throws UnknownHostException, IOException {
 		if (logger != null) logger.v(TAG, "Creating socket for host " + host + " on port " + port);
 		socket = new Socket(host, port);
 		if (logger != null) logger.v(TAG, "Socket successfully created and connected");
@@ -107,7 +102,7 @@ public class RemoteSession {
 		
 		InputStream in = socket.getInputStream();
 		reader = new InputStreamReader(in);
-		int result = readRegistrationReply(reader);
+		String result = readRegistrationReply(reader);
 		//sendPart2();
 		int i;
 		while ((i = in.available()) > 0) {
@@ -143,7 +138,7 @@ public class RemoteSession {
 		}
 	}
 	
-	private int readRegistrationReply(Reader reader) throws IOException {
+	private String readRegistrationReply(Reader reader) throws IOException {
 		if (logger != null) logger.v(TAG, "Reading registration reply");
 		reader.read(); // Unknown byte 0x02
 		String text1 = readText(reader); // Read "unknown.livingroom.iapp.samsung" for new RC and "iapp.samsung" for already registered RC
@@ -159,15 +154,17 @@ public class RemoteSession {
 			if (logger != null) logger.w(TAG, "Registration timed out");
 			return TIMEOUT;
 		} else {
-			if (logger != null) {
-				StringBuilder sb = new StringBuilder();
-				for (char c : result) {
-					sb.append(Integer.toHexString(c));
-					sb.append(' ');
-				}
-				logger.e(TAG, "Received unknown registration reply: "+sb.toString());
+			StringBuilder sb = new StringBuilder();
+			for (char c : result) {
+				sb.append(Integer.toHexString(c));
+				sb.append(' ');
 			}
-			return UNKNOWN;
+			String hexReturn = sb.toString();
+			if (logger != null) {
+				
+				logger.e(TAG, "Received unknown registration reply: "+hexReturn);
+			}
+			return hexReturn;
 		}
 	}
 	
