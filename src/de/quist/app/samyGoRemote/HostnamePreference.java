@@ -100,7 +100,15 @@ public class HostnamePreference extends EditTextPreference {
 			}
 		});
 		button.setText(R.string.tv_discovery_button);
-		((ViewGroup)((ViewGroup) view).getChildAt(0)).addView(button);
+		try {
+			((ViewGroup)((ViewGroup) view).getChildAt(0)).addView(button);
+		} catch (ClassCastException e) {
+			try {
+				((ViewGroup) view).addView(button);
+			} catch (ClassCastException e1) {
+				
+			}
+		}
 	}
 	
 	public void setOnSenderFactoryChangeListener(OnSenderFactoryChangeListener onSenderFactoryChangeListener) {
