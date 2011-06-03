@@ -16,18 +16,19 @@
  */
 package de.quist.app.samyGoRemote;
 
+import de.quist.app.errorreporter.ExceptionReporter;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public abstract class SenderFactory {
 
-	public static final Sender createKeyCodeSender(Context ctx, SharedPreferences prefs) {
+	public static final Sender createKeyCodeSender(Context ctx, SharedPreferences prefs, ExceptionReporter reporter) {
 		String factoryClassString = prefs.getString(Remote.PREFS_SENDER_FACTORY_KEY, Remote.PREFS_SENDER_FACTORY_DEFAULT);
 		try {
 			@SuppressWarnings("unchecked")
 			Class<SenderFactory> factoryClass = (Class<SenderFactory>) Class.forName(factoryClassString);
 			SenderFactory factory = factoryClass.newInstance();
-			return factory.create(ctx, prefs);
+			return factory.create(ctx, prefs, reporter);
 		} catch (ClassNotFoundException e1) {
 			return null;
 		} catch (IllegalAccessException e) {
@@ -37,6 +38,6 @@ public abstract class SenderFactory {
 		}
 	}
 
-	protected abstract Sender create(Context ctx, SharedPreferences prefs);
+	protected abstract Sender create(Context ctx, SharedPreferences prefs, ExceptionReporter reporter);
 
 }

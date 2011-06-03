@@ -41,9 +41,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import de.quist.app.errorreporter.ExceptionReportActivity;
+import de.quist.app.errorreporter.ReportingActivity;
 import de.quist.app.samyGoRemote.upnp.Discovery;
 
-public class Remote extends Activity {
+public class Remote extends ReportingActivity {
 
 	private static final String PREFS_ABOUT_DIALOG_SHOWN_KEY = "aboutDialogShown";
 	private static final boolean PREFS_ABOUT_DIALOG_SHOWN_DEFAULT = false;
@@ -214,7 +216,7 @@ public class Remote extends Activity {
 		if (mSender != null) mSender.uninitialize();
 		mSender = null;
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mSender = SenderFactory.createKeyCodeSender(this, prefs);
+		mSender = SenderFactory.createKeyCodeSender(this, prefs, getExceptionReporter());
 		try {
 			mSender.initialize();
 		} catch (final IOException e) {
@@ -233,6 +235,7 @@ public class Remote extends Activity {
 		@Override
 		protected Void doInBackground(Integer... codes) {
 			try {
+				if (mSender == null) return null;
 				if (!Remote.this.initialized) Remote.this.mSender.initialize();
 				if (mSender instanceof KeyCodeSender) {
 					KeyCodeSender keyCodeSender = (KeyCodeSender) mSender;

@@ -21,6 +21,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
 import android.util.Log;
+import de.quist.app.errorreporter.ExceptionReporter;
 import de.quist.samy.remocon.ConnectionDeniedException;
 import de.quist.samy.remocon.Key;
 import de.quist.samy.remocon.RemoteSession;
@@ -34,16 +35,19 @@ public class CSeriesSender implements KeyCodeSender, TextSender {
 	private String macAddress;
 	private RemoteSession session;
 
+	private ExceptionReporter reporter;
 
-	public CSeriesSender(String host, String mac) {
+
+	public CSeriesSender(String host, String mac, ExceptionReporter reporter) {
 		this.mHost = host;
 		this.macAddress = mac;
+		this.reporter = reporter;
 	}
 	
 	public void initialize() throws IOException {
 		try {
 			Log.v(TAG, "Creating session");
-			session = RemoteSession.create(NAME, macAddress, mHost, 55000, new RemoconLogWrapper());
+			session = RemoteSession.create(NAME, macAddress, mHost, 55000, new RemoconLogWrapper(reporter, RemoteSession.REPORT_TAG));
 			Log.v(TAG, "Successfully created session");
 		} catch (ConnectionDeniedException e) {
 			throw new IOException("Connection denied");
@@ -53,6 +57,7 @@ public class CSeriesSender implements KeyCodeSender, TextSender {
 	}
 	
 	public void sendCode(int... codes) throws UnknownHostException, IOException, InterruptedException {
+		if (session == null) initialize();
 		for (int code : codes) {
 			Key key = CSeriesButtons.MAPPINGS.get(code);
 			if (key != null) {
@@ -63,7 +68,8 @@ public class CSeriesSender implements KeyCodeSender, TextSender {
 	
 	public void sendText(String text) throws UnknownHostException, IOException, InterruptedException {
 		Log.v(TAG, "Sending text " + text);
-		session.sendText(text);
+		if (session == null) initialize();
+		if (session != null) session.sendText(text);
 	}
 	
 	public void uninitialize() {

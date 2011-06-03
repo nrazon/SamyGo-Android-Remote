@@ -16,13 +16,14 @@
  */
 package de.quist.app.samyGoRemote;
 
+import de.quist.app.errorreporter.ExceptionReporter;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public class BSeriesKeyCodeSenderFactory extends SenderFactory {
 
 	@Override
-	protected KeyCodeSender create(Context ctx, SharedPreferences prefs) {
+	protected KeyCodeSender create(Context ctx, SharedPreferences prefs, ExceptionReporter reporter) {
 		String host = prefs.getString(Remote.PREFS_SERVER_HOST_KEY, "");
 		int port = Integer.parseInt(Remote.PREFS_SERVER_PORT_DEFAULT);
 		try {

@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import de.quist.app.errorreporter.ExceptionReporter;
 
 public class CSeriesKeyCodeSenderFactory extends SenderFactory {
 
@@ -40,7 +41,7 @@ public class CSeriesKeyCodeSenderFactory extends SenderFactory {
 	private static final String TAG = CSeriesKeyCodeSenderFactory.class.getSimpleName();
 
 	@Override
-	protected Sender create(Context ctx, SharedPreferences prefs) {
+	protected Sender create(Context ctx, SharedPreferences prefs, ExceptionReporter reporter) {
 		String host = prefs.getString(Remote.PREFS_SERVER_HOST_KEY, "");
 		Log.v(TAG, "Factoring C-Series sender for host " + host);
 		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
@@ -56,7 +57,7 @@ public class CSeriesKeyCodeSenderFactory extends SenderFactory {
 			Log.v(TAG, "No wifi-interface. Set mac address to a virtual address " + mac);
 		}
 		Log.v(TAG, "Obtained MAC address " + mac);
-		return new CSeriesSender(host, mac);
+		return new CSeriesSender(host, mac, reporter);
 	}
 	
 	public String getNetworkAddress(File f) {

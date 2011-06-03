@@ -33,6 +33,8 @@ import java.util.concurrent.TimeoutException;
 
 public class RemoteSession {
 
+	public static final String REPORT_TAG = "report";
+	
 	private static final String APP_STRING = "iphone.iapp.samsung";
 	private static final String TV_APP_STRING = "iphone..iapp.samsung";
 	
@@ -78,7 +80,8 @@ public class RemoteSession {
 		} else if (result.equals(TIMEOUT)) {
 			throw new TimeoutException();
 		} else {
-			throw new UnknownError("TV returned " + result);
+			return session; // TODO For now we just assume to be connected
+			//throw new UnknownError("TV returned " + result);
 		}
 	}
 	
@@ -161,8 +164,7 @@ public class RemoteSession {
 			}
 			String hexReturn = sb.toString();
 			if (logger != null) {
-				
-				logger.e(TAG, "Received unknown registration reply: "+hexReturn);
+				logger.e(REPORT_TAG, "Received unknown registration reply: "+hexReturn);
 			}
 			return hexReturn;
 		}
