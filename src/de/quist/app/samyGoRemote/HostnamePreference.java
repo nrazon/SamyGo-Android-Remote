@@ -27,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import de.quist.app.samyGoRemote.upnp.Discovery;
 
@@ -42,20 +43,33 @@ public class HostnamePreference extends EditTextPreference {
 
 	public HostnamePreference(Context context) {
 		super(context);
+		setDialogLayoutResource(R.layout.hostname_preference);
 	}
 	
 	public HostnamePreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		setDialogLayoutResource(R.layout.hostname_preference);
 	}
 	
 	public HostnamePreference(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		setDialogLayoutResource(R.layout.hostname_preference);
+	}
+	
+	@Override
+	protected void onAddEditTextToDialogView(View dialogView, EditText editText) {
+		 ViewGroup container = (ViewGroup) dialogView.findViewById(R.id.hostname_edit_text);
+		 if (container != null) {
+			 container.addView(editText,
+                     ViewGroup.LayoutParams.FILL_PARENT,
+                     ViewGroup.LayoutParams.WRAP_CONTENT);
+		 }
 	}
 	
 	@Override
 	protected void onBindDialogView(View view) {
 		super.onBindDialogView(view);
-		Button button = new Button(getContext());
+		Button button = (Button) view.findViewById(R.id.auto_search_button);
 		button.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
@@ -99,16 +113,6 @@ public class HostnamePreference extends EditTextPreference {
 				d.execute();
 			}
 		});
-		button.setText(R.string.tv_discovery_button);
-		try {
-			((ViewGroup)((ViewGroup) view).getChildAt(0)).addView(button);
-		} catch (ClassCastException e) {
-			try {
-				((ViewGroup) view).addView(button);
-			} catch (ClassCastException e1) {
-				
-			}
-		}
 	}
 	
 	public void setOnSenderFactoryChangeListener(OnSenderFactoryChangeListener onSenderFactoryChangeListener) {
