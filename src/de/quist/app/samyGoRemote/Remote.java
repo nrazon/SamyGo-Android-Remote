@@ -21,7 +21,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,7 +40,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import de.quist.app.errorreporter.ExceptionReportActivity;
 import de.quist.app.errorreporter.ReportingActivity;
 import de.quist.app.samyGoRemote.upnp.Discovery;
 
