@@ -1,50 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
      Copyright (C) 2011  Tom Quist
-     
+
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by
      the Free Software Foundation; either version 2 of the License, or
      (at your option) any later version.
-     
+
      This program is distributed in the hope that it will be useful,
      but WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
      GNU General Public License for more details.
-     
+
      You can get the GNU General Public License at
      http://www.gnu.org/licenses/gpl.html
+
+	 polish translation by moras86
 -->
 <resources>
     <string name="app_name">Pilot SamyGo</string>
+    <string name="menu_textinput">Wprowadź tekst</string>
 	<string name="menu_settings">Ustawienia</string>
 	<string name="menu_about">O aplikacji</string>
+	<string name="text_input_title">Wprowadzanie tekstu</string>
 	<string name="about_title">Informacje o aplikacji</string>
-	<string name="about_text"><b>Pilot SamyGo</b> może być używany jak zwyczajny pilot zdalnego sterowania do telewizorów Samsung z serii B.
-\n\nAby móc kontrolować TV należy wcześniej uruchomić <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> na swoim TV. Zostało to dokładnie wyjaśnione <a href="http://quist.de/2011/02/remote-control-samsung-tv-with-android-phone/?lang=en">tutaj</a>.
+	<string name="about_text"><b>Pilot SamyGo</b> może być używany jak zwyczajny pilot zdalnego sterowania do telewizorów Samsung z serii B, C lub D.
+\n\nUWAGA! Aby móc kontrolować TV serii B należy wcześniej uruchomić <a href="http://sourceforge.net/apps/mediawiki/samygo/index.php?title=Content_Library_applications_list#Remote_LAN_Control"><b>Remote Lan Control</b></a> na swoim TV. Zostało to dokładnie wyjaśnione <a href="http://quist.de/2011/02/remote-control-samsung-tv-with-android-phone/?lang=en">tutaj</a>.
 \n\nSpecjalne podziękowania dla:
-\n- <a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=841">doodlecz</a> za <i>Remote Lan Control</i>
-\n- <a href="https://sourceforge.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=721">moras86</a> za wspaniałą ikonkę
-\n- Całej grupy <a href="http://samygo.tv"><i>SamyGo</i></a> za niesamowity projekt
+\n- <a href="https://sf.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=841">doodlecz</a> za <i>Remote Lan Control</i>
+\n- <a href="https://sf.net/apps/phpbb/samygo/memberlist.php?mode=viewprofile&amp;u=721">moras86</a> za wspaniałą ikonkę i tłumaczenie Polska
+\n- Całej grupy <a href="http://samygo.tv"><i>SamyGO</i></a> za niesamowity projekt
 	</string>
-	
+
 	<string name="prefs_category_server_title">Serwer</string>
+	<string name="prefs_server_sender_title">TV Model</string>
+	<string name="prefs_server_sender_summary">Seria twojego telewizora</string>
 	<string name="prefs_server_host_title">Host</string>
 	<string name="prefs_server_host_summary">Nazwa hosta lub adres IP twojego TV</string>
 	<string name="prefs_server_port_title">Port</string>
 	<string name="prefs_server_port_summary">Port serwera (domyślnie: 2345)</string>
-	
+
 	<string name="prefs_category_user_interface_title">Interfejs użytkownika</string>
 	<string name="prefs_layout_title">Schemat</string>
 	<string name="prefs_layout_summary">Używany schemat (aktualnie: ^1)</string>
 	<string name="prefs_vibration_duration_title">Wibruj przy kliknięciu</string>
 	<string name="prefs_vibration_duration_summary">Czas wibrowania dla klawiszy pilota</string>
 	<string name="prefs_vibration_duration_value">^1ms</string>
-	
+
+	<string name="tv_discovery_button">Automatyczne szukanie TV</string>
+	<string name="tv_discovery_found">Odnaleziono odbiornik TV</string>
+	<string name="tv_discovery_not_found">Nie znaleziono TV</string>
+	<string name="tv_discovery_progress_title">Szukanie</string>
+	<string name="tv_discovery_progress_message">Szukanie TV\nUpewnij się czy TV jest włączony a sieć WLAN aktywna!</string>
+
 	<string name="layout_simple_name">Minimalistyczny</string>
 	<string name="layout_b650_name">B650</string>
-	<string name="layout_b650_0938_name">B650 (alternatywny)</string>
+	<string name="layout_b650_0938_name">B650 [alternatywny]</string>
 	<string name="layout_b6000_name">B6000</string>
+
+	<string name="enable_wifi">WiFi jest nieaktywne. Musisz się połączyć z punktem dostępowym aby odnaleźć swój TV.</string>
+
+	<string name="b_series_info">UWAGA: Proszę przeczytać zawartość okna inforamacji o aplikacji w celach instrukcji dla TV z serii B!!!</string>
 	
 	<string name="btn_1">1</string>
 	<string name="btn_2">2</string>
